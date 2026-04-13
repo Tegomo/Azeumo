@@ -1,0 +1,55 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: azeumo-app:latest
+    container_name: azeumo-app
+    restart: unless-stopped
+    environment:
+      APP_NAME: Azeumo
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://azeumo.anuvis.net
+      APP_KEY: base64:tdKXITVU+WrQLbQhQsiWYeN8FivkDW47yFGL7KPsot4=
+      APP_LOCALE: fr
+      APP_FALLBACK_LOCALE: en
+      DB_CONNECTION: mysql
+      DB_HOST: azeumo-db
+      DB_PORT: 3306
+      DB_DATABASE: azeumo
+      DB_USERNAME: azeumo
+      DB_PASSWORD: azeumo2026!
+      SESSION_DRIVER: database
+      CACHE_STORE: database
+      QUEUE_CONNECTION: sync
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+      - dokploy-network
+
+  db:
+    image: mysql:8.0
+    container_name: azeumo-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: azeumo
+      MYSQL_USER: azeumo
+      MYSQL_PASSWORD: azeumo2026!
+      MYSQL_ROOT_PASSWORD: azeumo_r00t_2026!
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:
+
+networks:
+  dokploy-network:
+    external: true
