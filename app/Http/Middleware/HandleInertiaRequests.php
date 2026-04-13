@@ -45,6 +45,12 @@ class HandleInertiaRequests extends Middleware
                 }
                 return [];
             },
+            'seo' => [
+                'title' => 'Steve William Azeumo — Consultant en Intelligence Économique',
+                'description' => "Consultant indépendant en Intelligence Économique, Due Diligence et Veille Stratégique. +15 ans d'expérience en Afrique.",
+                'url' => $request->url(),
+                'locale' => app()->getLocale(),
+            ],
         ]);
     }
 }
