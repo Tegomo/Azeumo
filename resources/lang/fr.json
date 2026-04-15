@@ -1,4 +1,5 @@
 {
+  "nav.home": "Accueil",
   "nav.about": "À propos",
   "nav.services": "Services",
   "nav.method": "Méthode",
@@ -31,6 +32,11 @@
   "contact.success": "Message envoyé ! Je vous répondrai rapidement.",
   "contact.whatsapp": "Écrire sur WhatsApp",
   "footer.legal": "Mentions légales",
+  "footer.description": "Consultant indépendant en Intelligence Économique, accompagnant les organisations africaines et internationales dans leurs projets stratégiques.",
+  "footer.quick_links": "Liens rapides",
+  "footer.services": "Services",
+  "footer.contact": "Contact",
+  "footer.rights": "Tous droits réservés",
   "about.title": "À propos de moi",
   "about.skills": "Compétences clés",
   "about.education": "Éducation & Qualifications",

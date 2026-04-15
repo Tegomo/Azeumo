@@ -28,6 +28,9 @@ RUN apk add --no-cache \
         intl \
         opcache
 
+# Create supervisor log directory
+RUN mkdir -p /var/log/supervisor
+
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
@@ -37,14 +40,11 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-interaction --optimize-autoloader
 
-# Copy package files and build frontend assets
-COPY package.json package-lock.json vite.config.js tailwind.config.js postcss.config.js ./
-COPY resources/css resources/css
-COPY resources/js resources/js
-RUN npm ci && npm run build
-
 # Copy full application
 COPY . .
+
+# Install npm dependencies and build frontend assets
+RUN npm ci && npm run build
 
 # Run composer post-install scripts (auto-load, etc.)
 RUN composer dump-autoload --optimize

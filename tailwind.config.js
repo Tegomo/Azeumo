@@ -12,10 +12,17 @@ export default {
           700: '#0d1f38',
           800: '#081220',
         },
-        gold: {
-          DEFAULT: '#C9A84C',
-          light: '#e2c97e',
-          dark: '#a07d2c',
+gold: {
+          DEFAULT: '#d1651c',
+          light: '#e07a35',
+          dark: '#c63d24',
+        },
+        primary: {
+          DEFAULT: '#d1651c',
+          light: '#e07a35',
+          dark: '#c63d24',
+          start: '#d1651c',
+          end: '#c63d24',
         },
       },
       fontFamily: {

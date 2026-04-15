@@ -12,7 +12,7 @@ class ServiceSeeder extends Seeder
         $services = [
             [
                 'slug' => 'conseil-management',
-                'icon' => '🏢',
+                'icon' => 'building',
                 'title_fr' => 'Conseil en Management des Organisations',
                 'title_en' => 'Organisational Management Consulting',
                 'summary_fr' => 'Stratégie fiable, outils simples, pour atteindre la performance par anticipation.',
@@ -23,7 +23,7 @@ class ServiceSeeder extends Seeder
             ],
             [
                 'slug' => 'conception-gestion-projets',
-                'icon' => '📋',
+                'icon' => 'clipboard',
                 'title_fr' => 'Conception et Gestion des Projets',
                 'title_en' => 'Project Design and Management',
                 'summary_fr' => "+10 ans d'expérience dans la conduite de projets complexes pour des organisations africaines et internationales.",
@@ -34,7 +34,7 @@ class ServiceSeeder extends Seeder
             ],
             [
                 'slug' => 'intelligence-economique',
-                'icon' => '🔍',
+                'icon' => 'search',
                 'title_fr' => 'Intelligence Économique en Afrique',
                 'title_en' => 'Economic Intelligence in Africa',
                 'summary_fr' => "+15 ans dans la conduite de missions d'Intelligence Économique.",
@@ -45,7 +45,7 @@ class ServiceSeeder extends Seeder
             ],
             [
                 'slug' => 'veille-due-diligence',
-                'icon' => '🛡️',
+                'icon' => 'shield',
                 'title_fr' => 'Veille Stratégique · Due Diligence · Protection des données',
                 'title_en' => 'Strategic Watch · Due Diligence · Data Protection',
                 'summary_fr' => 'Veille concurrentielle, diligence raisonnable et conformité des données personnelles.',
@@ -56,7 +56,7 @@ class ServiceSeeder extends Seeder
             ],
             [
                 'slug' => 'projets-developpement',
-                'icon' => '🌍',
+                'icon' => 'globe',
                 'title_fr' => 'Projets de Développement',
                 'title_en' => 'Development Projects',
                 'summary_fr' => "Conception, gestion opérationnelle, gestion financière et évaluation d'impact de projets financés par des bailleurs internationaux.",
