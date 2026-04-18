@@ -1,7 +1,7 @@
 <template>
   <Link
     :href="`/services#${slug}`"
-    class="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 card-hover"
+    class="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 card-hover"
   >
     <!-- Background gradient on hover -->
     <div class="absolute inset-0 bg-gradient-to-br from-navy to-navy-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
