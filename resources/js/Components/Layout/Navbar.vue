@@ -18,6 +18,15 @@
       <!-- Desktop Navigation -->
       <nav class="hidden xl:flex items-center gap-0.5">
 
+        <!-- Home -->
+        <Link
+          href="/"
+          class="px-3 py-2 text-sm font-medium transition-all duration-300 rounded-lg"
+          :class="isActive('/') ? 'text-gold' : scrolled ? 'text-navy hover:text-gold' : 'text-white/90 hover:text-white'"
+        >
+          {{ locale === 'fr' ? 'Accueil' : 'Home' }}
+        </Link>
+
         <!-- À propos -->
         <div class="relative" @mouseenter="openDropdown('about')" @mouseleave="closeDropdown">
           <a
@@ -287,6 +296,9 @@
 
           <!-- Direct links -->
           <div class="py-2 space-y-1">
+            <Link href="/" @click="open = false" class="block px-3 py-2.5 text-navy font-semibold text-sm rounded-lg hover:bg-gold/5 transition-colors">
+              {{ locale === 'fr' ? 'Accueil' : 'Home' }}
+            </Link>
             <Link href="/blog" @click="open = false" class="block px-3 py-2.5 text-navy font-semibold text-sm rounded-lg hover:bg-gold/5 transition-colors">
               {{ locale === 'fr' ? 'Blog / Articles' : 'Blog / Articles' }}
             </Link>
