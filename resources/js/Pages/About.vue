@@ -3,8 +3,8 @@
     <!-- Hero Section -->
     <section class="relative bg-navy text-white py-32 overflow-hidden">
       <div class="absolute inset-0">
-        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-gold/10 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
+        <img src="/images/pages/about-bg.jpg" alt="" class="w-full h-full object-cover opacity-15" />
+        <div class="absolute inset-0 bg-gradient-to-r from-navy via-navy/95 to-navy/80"></div>
       </div>
 
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -32,9 +32,7 @@
           <!-- Image -->
           <div class="relative animate-fade-right">
             <div class="aspect-[4/5] bg-gray-100 rounded-3xl overflow-hidden relative">
-              <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-navy to-navy-700">
-                <Icon name="user" size="3xl" class="text-white/20 w-32 h-32" :stroke-width="0.8" />
-              </div>
+              <img src="/images/profile/portrait.jpg" alt="Steve William Azeumo" class="absolute inset-0 w-full h-full object-cover object-top" />
               <!-- Decorative frame -->
               <div class="absolute -bottom-4 -right-4 w-full h-full border-2 border-gold rounded-3xl -z-10"></div>
             </div>
@@ -166,9 +164,9 @@
 
         <div class="bg-gradient-to-br from-gold/10 to-gold/5 rounded-3xl p-8 lg:p-12 border border-gold/20 animate-scale">
           <div class="flex flex-col lg:flex-row items-center gap-8">
-            <!-- Book cover placeholder -->
-            <div class="w-40 h-56 bg-navy rounded-lg shadow-2xl flex items-center justify-center flex-shrink-0">
-              <Icon name="book" size="3xl" class="text-white/40" :stroke-width="1" />
+            <!-- Book cover -->
+            <div class="w-40 h-56 rounded-lg shadow-2xl overflow-hidden flex-shrink-0">
+              <img src="/images/profile/book-cover.jpg" alt="L'Intelligence Économique Camerounaise" class="w-full h-full object-cover" />
             </div>
 
             <div class="text-center lg:text-left">

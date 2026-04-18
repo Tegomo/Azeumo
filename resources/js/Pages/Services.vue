@@ -28,7 +28,7 @@
     <!-- Services List -->
     <section class="section-padding bg-white">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="space-y-20">
+        <div class="space-y-24">
           <article
             v-for="(s, index) in services"
             :key="s.slug"
@@ -36,34 +36,41 @@
             class="scroll-mt-24 animate-fade-up"
             :style="{ transitionDelay: `${index * 100}ms` }"
           >
-            <div class="grid lg:grid-cols-12 gap-8 items-start">
-              <!-- Icon -->
-              <div class="lg:col-span-2">
-                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center shadow-lg">
-                  <span class="text-4xl">{{ s.icon }}</span>
+            <div class="grid lg:grid-cols-2 gap-12 items-center" :class="index % 2 === 1 ? 'lg:flex lg:flex-row-reverse' : ''">
+              <!-- Image -->
+              <div class="relative rounded-3xl overflow-hidden aspect-[4/3] shadow-2xl">
+                <img
+                  :src="serviceImages[s.slug]"
+                  :alt="s.title"
+                  class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent"></div>
+                <!-- Number badge -->
+                <div class="absolute bottom-6 left-6 w-14 h-14 rounded-full bg-gold flex items-center justify-center shadow-lg">
+                  <span class="font-display font-bold text-white text-xl">0{{ index + 1 }}</span>
                 </div>
               </div>
 
               <!-- Content -->
-              <div class="lg:col-span-10">
-                <div class="flex items-center gap-4 mb-4">
-                  <span class="text-gold font-mono text-sm">0{{ index + 1 }}</span>
-                  <div class="flex-1 h-px bg-gray-200"></div>
+              <div :class="index % 2 === 1 ? 'lg:pr-8' : 'lg:pl-8'">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center">
+                    <Icon :name="s.icon" size="lg" class="text-gold" />
+                  </div>
+                  <span class="text-gold font-mono text-sm font-semibold">0{{ index + 1 }}</span>
                 </div>
 
                 <h2 class="font-display font-bold text-navy text-2xl lg:text-3xl mb-6">
                   {{ s.title }}
                 </h2>
 
-                <div class="relative pl-6 border-l-4 border-gold">
+                <div class="relative pl-6 border-l-4 border-gold/50 mb-8">
                   <p class="text-gray-600 leading-relaxed whitespace-pre-line">{{ s.body }}</p>
                 </div>
 
-                <div class="mt-8">
-                  <Button href="/contact" variant="outline" showArrow>
-                    {{ locale === 'fr' ? 'Demander un devis' : 'Request a quote' }}
-                  </Button>
-                </div>
+                <Button href="/contact" variant="outline" showArrow>
+                  {{ locale === 'fr' ? 'Demander un devis' : 'Request a quote' }}
+                </Button>
               </div>
             </div>
           </article>
@@ -108,8 +115,17 @@
 <script setup>
 import AppLayout from '../Components/Layout/AppLayout.vue'
 import Button from '../Components/UI/Button.vue'
+import Icon from '../Components/UI/Icon.vue'
 import { useRoute } from '../composables/useI18n'
 
 defineProps({ services: Array })
 const { t, locale } = useRoute()
+
+const serviceImages = {
+  'conseil-management':        '/images/services/gestion-projet.jpg',
+  'conception-gestion-projets':'/images/services/gestion-projet.jpg',
+  'intelligence-economique':   '/images/services/intelligence-economique.jpg',
+  'veille-due-diligence':      '/images/services/veille.jpg',
+  'projets-developpement':     '/images/services/afrique.jpg',
+}
 </script>

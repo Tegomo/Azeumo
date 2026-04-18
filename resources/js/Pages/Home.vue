@@ -54,9 +54,8 @@
             <div class="relative">
               <!-- Main circle with gradient border -->
               <div class="w-80 h-80 xl:w-96 xl:h-96 mx-auto rounded-full bg-gradient-to-br from-gold/20 to-transparent p-1">
-                <div class="w-full h-full rounded-full bg-navy-700 flex items-center justify-center relative overflow-hidden">
-                  <!-- Placeholder for image -->
-                  <Icon name="user" size="3xl" class="text-white/30" :stroke-width="1" />
+                <div class="w-full h-full rounded-full bg-navy-700 relative overflow-hidden">
+                  <img src="/images/profile/portrait-square.jpg" alt="Steve William Azeumo" class="w-full h-full object-cover object-top" />
                   <!-- Shine effect -->
                   <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent"></div>
                 </div>

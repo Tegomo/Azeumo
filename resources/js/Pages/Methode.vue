@@ -95,7 +95,7 @@
                   <p class="text-gray-600">{{ step.desc }}</p>
                 </div>
 
-                <!-- Step number (desktop) -->
+                    <!-- Step number (desktop) -->
                 <div class="hidden md:flex items-center" :class="index % 2 === 0 ? 'md:order-2 justify-start' : 'justify-end'">
                   <div class="w-16 h-16 rounded-full bg-gold flex items-center justify-center shadow-lg shadow-gold/30 relative z-10">
                     <span class="font-display font-bold text-navy text-xl">{{ index + 1 }}</span>
@@ -104,6 +104,22 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Banner -->
+    <section class="relative h-72 overflow-hidden">
+      <img src="/images/pages/methode.jpg" alt="Consulting" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-navy/70"></div>
+      <div class="relative z-10 h-full flex items-center justify-center text-center px-4">
+        <div>
+          <p class="text-gold font-semibold text-sm tracking-widest uppercase mb-3">
+            {{ locale === 'fr' ? 'Une approche sur-mesure' : 'A tailor-made approach' }}
+          </p>
+          <h2 class="font-display font-bold text-white text-3xl sm:text-4xl">
+            {{ locale === 'fr' ? 'Excellence & Résultats concrets' : 'Excellence & Concrete Results' }}
+          </h2>
         </div>
       </div>
     </section>

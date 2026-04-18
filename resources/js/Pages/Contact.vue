@@ -3,8 +3,8 @@
     <!-- Hero Section -->
     <section class="relative bg-navy text-white py-32 overflow-hidden">
       <div class="absolute inset-0">
-        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-gold/10 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
+        <img src="/images/pages/contact.jpg" alt="" class="w-full h-full object-cover opacity-20" />
+        <div class="absolute inset-0 bg-gradient-to-r from-navy via-navy/90 to-navy/70"></div>
       </div>
 
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
