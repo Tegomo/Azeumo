@@ -26,7 +26,7 @@
     </section>
 
     <!-- Bio Section -->
-    <section class="section-padding bg-white">
+    <section id="biographie" class="section-padding bg-white scroll-mt-24">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           <!-- Image -->
@@ -154,7 +154,7 @@
     </section>
 
     <!-- Bibliography Section -->
-    <section class="section-padding bg-white">
+    <section id="bibliographie" class="section-padding bg-white scroll-mt-24">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle
           :title="t('about.bibliography')"

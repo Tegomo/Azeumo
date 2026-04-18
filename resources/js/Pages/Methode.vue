@@ -39,7 +39,8 @@
           <div
             v-for="(m, index) in modes"
             :key="m.titleKey"
-            class="group relative bg-white rounded-3xl p-8 border border-gray-100 hover:border-gold/30 shadow-sm hover:shadow-xl transition-all duration-500 card-hover animate-fade-up"
+            :id="m.anchor"
+            class="group relative bg-white rounded-3xl p-8 border border-gray-100 hover:border-gold/30 shadow-sm hover:shadow-xl transition-all duration-500 card-hover animate-fade-up scroll-mt-24"
             :style="{ transitionDelay: `${index * 100}ms` }"
           >
             <!-- Icon -->
@@ -191,9 +192,9 @@ defineProps({ missions: Array })
 const { t, locale } = useRoute()
 
 const modes = [
-  { icon: 'handshake', titleKey: 'method.conseil', descKey: 'method.conseil_desc' },
-  { icon: 'academic', titleKey: 'method.formation', descKey: 'method.formation_desc' },
-  { icon: 'wrench', titleKey: 'method.intervention', descKey: 'method.intervention_desc' },
+  { icon: 'handshake', titleKey: 'method.conseil',      descKey: 'method.conseil_desc',      anchor: 'conseil' },
+  { icon: 'academic',  titleKey: 'method.formation',    descKey: 'method.formation_desc',    anchor: 'formation' },
+  { icon: 'wrench',    titleKey: 'method.intervention', descKey: 'method.intervention_desc', anchor: 'intervention' },
 ]
 
 const steps = [
