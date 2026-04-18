@@ -379,8 +379,7 @@ const slides = computed(() => [
       ? 'Première partie de l\'interview accordée à VoxAfrica sur l\'intelligence économique camerounaise et les enjeux stratégiques pour le continent africain.'
       : 'First part of the interview given to VoxAfrica on Cameroonian economic intelligence and strategic challenges for the African continent.',
     cta: { href: '/media', label: locale.value === 'fr' ? 'Voir les médias' : 'See media' },
-    // Remplacez par l'URL d'embed YouTube réelle : https://www.youtube.com/embed/VIDEO_ID
-    videoUrl: null,
+    videoUrl: 'https://www.youtube.com/embed/KUohpA131dc?autoplay=1',
   },
   {
     id: 2,
@@ -392,7 +391,7 @@ const slides = computed(() => [
       ? 'Deuxième partie de l\'interview : comment bâtir une stratégie d\'intelligence économique efficace pour les entreprises et États africains.'
       : 'Second part of the interview: how to build an effective economic intelligence strategy for African businesses and states.',
     cta: { href: '/media', label: locale.value === 'fr' ? 'Voir les médias' : 'See media' },
-    videoUrl: null,
+    videoUrl: 'https://www.youtube.com/embed/Z05xRdvgeNw?autoplay=1',
   },
   {
     id: 3,
@@ -404,7 +403,7 @@ const slides = computed(() => [
       ? 'L\'apport des technologies de l\'information au service d\'une économie centrée sur l\'humain — une vision pour l\'Afrique de demain.'
       : 'The contribution of information technologies in service of a human-centred economy — a vision for tomorrow\'s Africa.',
     cta: { href: '/a-propos', label: locale.value === 'fr' ? 'En savoir plus' : 'Learn more' },
-    videoUrl: null,
+    videoUrl: 'https://www.youtube.com/embed/uY7XdBj8JDg?autoplay=1',
   },
 ])
 
