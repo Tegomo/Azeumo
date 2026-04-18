@@ -298,6 +298,14 @@
   border-image: linear-gradient(135deg, #FF7400 0%, #E66800 100%) 1;
 }
 
+/* ===== SERVICE CARD SHADOW ===== */
+.service-card-shadow {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13), 0 2px 8px rgba(255, 116, 0, 0.08);
+}
+.service-card-shadow:hover {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18), 0 6px 16px rgba(255, 116, 0, 0.15);
+}
+
 /* ===== SLIDER HERO ===== */
 .slide-fade-enter-active,
 .slide-fade-leave-active {
