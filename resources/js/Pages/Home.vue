@@ -1,84 +1,127 @@
 <template>
   <AppLayout>
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center bg-navy overflow-hidden">
-      <!-- Animated background shapes -->
-      <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute top-20 right-10 w-72 h-72 bg-gold/10 rounded-full blur-3xl animate-float"></div>
-        <div class="absolute bottom-20 left-10 w-96 h-96 bg-gold/5 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full"></div>
+    <!-- Hero Slider -->
+    <section class="relative min-h-screen overflow-hidden">
+
+      <!-- Slides -->
+      <div class="relative min-h-screen">
+        <TransitionGroup name="slide-fade">
+          <div
+            v-for="(slide, index) in slides"
+            :key="slide.id"
+            v-show="currentSlide === index"
+            class="absolute inset-0 min-h-screen"
+          >
+            <!-- Background image -->
+            <img
+              :src="slide.image"
+              :alt="slide.title"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+            <!-- Dark overlay gradient -->
+            <div class="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/70 to-navy/50"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-navy/30"></div>
+
+            <!-- Slide content -->
+            <div class="relative z-10 min-h-screen flex items-center">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
+                <div class="max-w-3xl">
+                  <!-- Tag -->
+                  <div class="inline-flex items-center gap-3 mb-6">
+                    <span class="w-12 h-px bg-gold"></span>
+                    <span class="text-gold font-semibold text-sm tracking-widest uppercase">
+                      {{ slide.tag }}
+                    </span>
+                  </div>
+
+                  <!-- Title -->
+                  <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-6 text-white">
+                    {{ slide.title }}
+                    <span v-if="slide.subtitle" class="block text-gold mt-2 text-3xl sm:text-4xl lg:text-5xl">
+                      {{ slide.subtitle }}
+                    </span>
+                  </h1>
+
+                  <!-- Description -->
+                  <p class="text-gray-300 text-lg lg:text-xl leading-relaxed mb-10 max-w-2xl">
+                    {{ slide.description }}
+                  </p>
+
+                  <!-- CTA -->
+                  <div class="flex flex-wrap gap-4">
+                    <a
+                      :href="slide.cta.href"
+                      class="inline-flex items-center gap-2 px-8 py-3.5 bg-gold text-white font-display font-semibold rounded-full hover:shadow-lg transition-all duration-300"
+                    >
+                      {{ slide.cta.label }}
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                      </svg>
+                    </a>
+                    <a
+                      href="/contact"
+                      class="inline-flex items-center gap-2 px-8 py-3.5 border border-white/40 text-white font-semibold rounded-full hover:border-gold hover:text-gold transition-all duration-300"
+                    >
+                      {{ locale === 'fr' ? 'Me contacter' : 'Contact me' }}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </TransitionGroup>
       </div>
 
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
-        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <!-- Text content -->
-          <div class="text-white">
-            <div class="inline-flex items-center gap-3 mb-6 animate-fade-up">
-              <span class="w-12 h-px bg-gold"></span>
-              <span class="text-gold font-semibold text-sm tracking-widest uppercase">
-                {{ t('hero.tag') }}
-              </span>
-            </div>
+      <!-- Slide counter & dots -->
+      <div class="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
+        <button
+          v-for="(slide, index) in slides"
+          :key="index"
+          @click="goToSlide(index)"
+          :aria-label="`Slide ${index + 1}`"
+          class="transition-all duration-300"
+          :class="currentSlide === index
+            ? 'w-8 h-2 bg-gold rounded-full'
+            : 'w-2 h-2 bg-white/50 rounded-full hover:bg-white/80'"
+        ></button>
+      </div>
 
-            <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-6 animate-fade-up delay-100">
-              Steve William
-              <span class="block text-gold mt-2">Azeumo</span>
-            </h1>
+      <!-- Arrow navigation -->
+      <button
+        @click="prevSlide"
+        class="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center text-white hover:bg-gold hover:border-gold transition-all duration-300"
+        aria-label="Précédent"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <button
+        @click="nextSlide"
+        class="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center text-white hover:bg-gold hover:border-gold transition-all duration-300"
+        aria-label="Suivant"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
 
-            <p class="text-gray-300 text-lg lg:text-xl leading-relaxed mb-8 max-w-xl animate-fade-up delay-200">
-              {{ t('hero.subtitle') }}
-            </p>
+      <!-- Slide number -->
+      <div class="absolute bottom-24 right-8 z-20 text-white/60 text-sm font-mono">
+        <span class="text-white font-semibold">{{ String(currentSlide + 1).padStart(2, '0') }}</span>
+        /{{ String(slides.length).padStart(2, '0') }}
+      </div>
 
-            <!-- Quote -->
-            <blockquote class="relative pl-6 border-l-2 border-gold/50 mb-10 animate-fade-up delay-300">
-              <p class="text-gray-400 italic text-sm lg:text-base">
-                "I've a dream that one day, Africa will be one Country with one Authority and one Nation."
-              </p>
-              <cite class="text-gold text-sm mt-2 block not-italic">— Lofty Azeumo</cite>
-            </blockquote>
-
-            <!-- CTA Buttons -->
-            <div class="flex flex-wrap gap-4 animate-fade-up delay-400">
-              <Button href="/services" size="lg" showArrow>
-                {{ t('hero.cta_services') }}
-              </Button>
-              <Button href="/contact" variant="outline-light" size="lg">
-                {{ t('hero.cta_contact') }}
-              </Button>
-            </div>
-          </div>
-
-          <!-- Image/Visual -->
-          <div class="hidden lg:block relative animate-fade-left delay-300">
-            <div class="relative">
-              <!-- Main circle with gradient border -->
-              <div class="w-80 h-80 xl:w-96 xl:h-96 mx-auto rounded-full bg-gradient-to-br from-gold/20 to-transparent p-1">
-                <div class="w-full h-full rounded-full bg-navy-700 relative overflow-hidden">
-                  <img src="/images/profile/portrait-square.jpg" alt="Steve William Azeumo" class="w-full h-full object-cover object-top" />
-                  <!-- Shine effect -->
-                  <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent"></div>
-                </div>
-              </div>
-
-              <!-- Floating decorations -->
-              <div class="absolute -top-4 -right-4 w-20 h-20 border-2 border-gold/30 rounded-full animate-float"></div>
-              <div class="absolute -bottom-8 -left-8 w-16 h-16 bg-gold/20 rounded-full blur-xl animate-float" style="animation-delay: -2s;"></div>
-
-              <!-- Experience badge -->
-              <div class="absolute -right-4 top-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl p-4 animate-float" style="animation-delay: -1s;">
-                <div class="text-center">
-                  <span class="font-display font-bold text-3xl text-navy">10+</span>
-                  <p class="text-xs text-gray-600 mt-1">{{ locale === 'fr' ? "Ans d'expérience" : 'Years Experience' }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- Progress bar -->
+      <div class="absolute bottom-0 left-0 right-0 z-20 h-1 bg-white/10">
+        <div
+          class="h-full bg-gold transition-all duration-300"
+          :style="{ width: progressWidth + '%' }"
+        ></div>
       </div>
 
       <!-- Scroll indicator -->
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce">
         <div class="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
           <div class="w-1 h-2 bg-gold rounded-full animate-pulse"></div>
         </div>
@@ -221,6 +264,7 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import AppLayout from '../Components/Layout/AppLayout.vue'
 import SectionTitle from '../Components/UI/SectionTitle.vue'
 import ServiceCard from '../Components/UI/ServiceCard.vue'
@@ -238,4 +282,91 @@ const modes = [
   { icon: 'academic', titleKey: 'method.formation', descKey: 'method.formation_desc' },
   { icon: 'wrench', titleKey: 'method.intervention', descKey: 'method.intervention_desc' },
 ]
+
+// ─── Slider ───────────────────────────────────────────────────────────────────
+const SLIDE_DURATION = 6000 // ms
+
+const slides = computed(() => [
+  {
+    id: 1,
+    image: '/images/slider/voxafrica-1.jpg',
+    tag: 'VoxAfrica · Voxbook 2014',
+    title: locale.value === 'fr' ? 'L\'Intelligence Économique Africaine' : 'African Economic Intelligence',
+    subtitle: 'Voxbook 2014 (I)',
+    description: locale.value === 'fr'
+      ? 'Première partie de l\'interview accordée à VoxAfrica sur l\'intelligence économique camerounaise et les enjeux stratégiques pour le continent africain.'
+      : 'First part of the interview given to VoxAfrica on Cameroonian economic intelligence and strategic challenges for the African continent.',
+    cta: { href: '/media', label: locale.value === 'fr' ? 'Voir les médias' : 'See media' },
+  },
+  {
+    id: 2,
+    image: '/images/slider/voxafrica-2.jpg',
+    tag: 'VoxAfrica · Voxbook 2014',
+    title: locale.value === 'fr' ? 'Stratégie & Compétitivité' : 'Strategy & Competitiveness',
+    subtitle: 'Voxbook 2014 (II)',
+    description: locale.value === 'fr'
+      ? 'Deuxième partie de l\'interview : comment bâtir une stratégie d\'intelligence économique efficace pour les entreprises et États africains.'
+      : 'Second part of the interview: how to build an effective economic intelligence strategy for African businesses and states.',
+    cta: { href: '/media', label: locale.value === 'fr' ? 'Voir les médias' : 'See media' },
+  },
+  {
+    id: 3,
+    image: '/images/slider/economie-communion.jpg',
+    tag: locale.value === 'fr' ? 'Économie de Communion · IT' : 'Economy of Communion · IT',
+    title: locale.value === 'fr' ? 'Économie de Communion' : 'Economy of Communion',
+    subtitle: locale.value === 'fr' ? 'Technologies & Humanisme' : 'Technology & Humanism',
+    description: locale.value === 'fr'
+      ? 'L\'apport des technologies de l\'information au service d\'une économie centrée sur l\'humain — une vision pour l\'Afrique de demain.'
+      : 'The contribution of information technologies in service of a human-centred economy — a vision for tomorrow\'s Africa.',
+    cta: { href: '/a-propos', label: locale.value === 'fr' ? 'En savoir plus' : 'Learn more' },
+  },
+])
+
+const currentSlide = ref(0)
+const progress = ref(0)
+let autoTimer = null
+let progressTimer = null
+
+function goToSlide(index) {
+  currentSlide.value = index
+  resetProgress()
+}
+
+function nextSlide() {
+  currentSlide.value = (currentSlide.value + 1) % slides.value.length
+  resetProgress()
+}
+
+function prevSlide() {
+  currentSlide.value = (currentSlide.value - 1 + slides.value.length) % slides.value.length
+  resetProgress()
+}
+
+const progressWidth = computed(() => progress.value)
+
+function resetProgress() {
+  clearInterval(autoTimer)
+  clearInterval(progressTimer)
+  progress.value = 0
+  startAuto()
+}
+
+function startAuto() {
+  const step = 100 / (SLIDE_DURATION / 50)
+  progressTimer = setInterval(() => {
+    progress.value = Math.min(progress.value + step, 100)
+  }, 50)
+
+  autoTimer = setTimeout(() => {
+    currentSlide.value = (currentSlide.value + 1) % slides.value.length
+    progress.value = 0
+    startAuto()
+  }, SLIDE_DURATION)
+}
+
+onMounted(() => startAuto())
+onUnmounted(() => {
+  clearTimeout(autoTimer)
+  clearInterval(progressTimer)
+})
 </script>
