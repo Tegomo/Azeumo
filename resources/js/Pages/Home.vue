@@ -48,7 +48,7 @@
                   </p>
 
                   <!-- CTA -->
-                  <div class="flex flex-wrap gap-4">
+                  <div class="flex flex-wrap gap-4 items-center">
                     <a
                       :href="slide.cta.href"
                       class="inline-flex items-center gap-2 px-8 py-3.5 bg-gold text-white font-display font-semibold rounded-full hover:shadow-lg transition-all duration-300"
@@ -58,12 +58,24 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                       </svg>
                     </a>
-                    <a
-                      href="/contact"
-                      class="inline-flex items-center gap-2 px-8 py-3.5 border border-white/40 text-white font-semibold rounded-full hover:border-gold hover:text-gold transition-all duration-300"
+
+                    <!-- Watch Video button -->
+                    <button
+                      @click="openVideo(slide)"
+                      class="group inline-flex items-center gap-3 text-white hover:text-gold transition-colors duration-300"
                     >
-                      {{ locale === 'fr' ? 'Me contacter' : 'Contact me' }}
-                    </a>
+                      <!-- Play circle -->
+                      <span class="relative flex-shrink-0 w-14 h-14 rounded-full bg-white/20 backdrop-blur border border-white/40 flex items-center justify-center group-hover:bg-gold group-hover:border-gold transition-all duration-300">
+                        <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <!-- Pulse ring -->
+                        <span class="absolute inset-0 rounded-full border border-white/40 animate-ping opacity-40"></span>
+                      </span>
+                      <span class="font-semibold text-sm">
+                        {{ locale === 'fr' ? 'Voir la vidéo' : 'Watch video' }}
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -127,6 +139,76 @@
         </div>
       </div>
     </section>
+
+    <!-- Video Modal -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition-all duration-300 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition-all duration-200 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="videoModal.open"
+          class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-navy/95 backdrop-blur-sm"
+          @click.self="closeVideo"
+        >
+          <Transition
+            enter-active-class="transition-all duration-300 ease-out"
+            enter-from-class="opacity-0 scale-95"
+            enter-to-class="opacity-100 scale-100"
+            leave-active-class="transition-all duration-200 ease-in"
+            leave-from-class="opacity-100 scale-100"
+            leave-to-class="opacity-0 scale-95"
+          >
+            <div v-if="videoModal.open" class="relative w-full max-w-4xl">
+              <!-- Header -->
+              <div class="flex items-center justify-between mb-4 px-1">
+                <div>
+                  <span class="text-gold text-xs font-semibold tracking-widest uppercase">{{ videoModal.tag }}</span>
+                  <h3 class="text-white font-display font-bold text-xl mt-1">{{ videoModal.title }}</h3>
+                </div>
+                <button
+                  @click="closeVideo"
+                  class="w-10 h-10 rounded-full bg-white/10 hover:bg-gold flex items-center justify-center text-white transition-all duration-200 flex-shrink-0"
+                  aria-label="Fermer"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Video iframe -->
+              <div class="relative aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-2xl">
+                <iframe
+                  v-if="videoModal.url"
+                  :src="videoModal.url"
+                  class="absolute inset-0 w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  frameborder="0"
+                ></iframe>
+                <!-- Placeholder si pas de URL -->
+                <div v-else class="absolute inset-0 flex flex-col items-center justify-center bg-navy-700 text-white/40">
+                  <svg class="w-16 h-16 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                  </svg>
+                  <p class="text-sm">{{ locale === 'fr' ? 'Vidéo à venir' : 'Video coming soon' }}</p>
+                </div>
+              </div>
+
+              <!-- ESC hint -->
+              <p class="text-center text-white/30 text-xs mt-4">
+                {{ locale === 'fr' ? 'Appuyez sur Échap pour fermer' : 'Press Esc to close' }}
+              </p>
+            </div>
+          </Transition>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- Stats Section -->
     <section class="py-16 bg-white relative -mt-20 z-20">
@@ -297,6 +379,8 @@ const slides = computed(() => [
       ? 'Première partie de l\'interview accordée à VoxAfrica sur l\'intelligence économique camerounaise et les enjeux stratégiques pour le continent africain.'
       : 'First part of the interview given to VoxAfrica on Cameroonian economic intelligence and strategic challenges for the African continent.',
     cta: { href: '/media', label: locale.value === 'fr' ? 'Voir les médias' : 'See media' },
+    // Remplacez par l'URL d'embed YouTube réelle : https://www.youtube.com/embed/VIDEO_ID
+    videoUrl: null,
   },
   {
     id: 2,
@@ -308,6 +392,7 @@ const slides = computed(() => [
       ? 'Deuxième partie de l\'interview : comment bâtir une stratégie d\'intelligence économique efficace pour les entreprises et États africains.'
       : 'Second part of the interview: how to build an effective economic intelligence strategy for African businesses and states.',
     cta: { href: '/media', label: locale.value === 'fr' ? 'Voir les médias' : 'See media' },
+    videoUrl: null,
   },
   {
     id: 3,
@@ -319,6 +404,7 @@ const slides = computed(() => [
       ? 'L\'apport des technologies de l\'information au service d\'une économie centrée sur l\'humain — une vision pour l\'Afrique de demain.'
       : 'The contribution of information technologies in service of a human-centred economy — a vision for tomorrow\'s Africa.',
     cta: { href: '/a-propos', label: locale.value === 'fr' ? 'En savoir plus' : 'Learn more' },
+    videoUrl: null,
   },
 ])
 
@@ -326,6 +412,33 @@ const currentSlide = ref(0)
 const progress = ref(0)
 let autoTimer = null
 let progressTimer = null
+
+// ─── Video Modal ──────────────────────────────────────────────────────────────
+const videoModal = ref({ open: false, url: null, title: '', tag: '' })
+
+function openVideo(slide) {
+  videoModal.value = {
+    open: true,
+    url: slide.videoUrl,
+    title: slide.title + (slide.subtitle ? ' — ' + slide.subtitle : ''),
+    tag: slide.tag,
+  }
+  // Pause slider
+  clearTimeout(autoTimer)
+  clearInterval(progressTimer)
+  document.body.style.overflow = 'hidden'
+}
+
+function closeVideo() {
+  videoModal.value = { open: false, url: null, title: '', tag: '' }
+  document.body.style.overflow = ''
+  // Resume slider
+  startAuto()
+}
+
+function handleKeydown(e) {
+  if (e.key === 'Escape' && videoModal.value.open) closeVideo()
+}
 
 function goToSlide(index) {
   currentSlide.value = index
@@ -364,9 +477,14 @@ function startAuto() {
   }, SLIDE_DURATION)
 }
 
-onMounted(() => startAuto())
+onMounted(() => {
+  startAuto()
+  window.addEventListener('keydown', handleKeydown)
+})
 onUnmounted(() => {
   clearTimeout(autoTimer)
   clearInterval(progressTimer)
+  window.removeEventListener('keydown', handleKeydown)
+  document.body.style.overflow = ''
 })
 </script>
