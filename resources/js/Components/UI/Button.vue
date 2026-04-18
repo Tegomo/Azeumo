@@ -65,7 +65,7 @@ const variantClass = computed(() => {
   const variants = {
     primary: 'bg-primary-gradient text-white hover:shadow-lg hover:shadow-gold/30 active:scale-95',
     secondary: 'bg-navy text-white hover:bg-navy-700 hover:shadow-lg active:scale-95',
-    outline: 'border-2 border-gold text-gold hover:bg-gold hover:text-white active:scale-95',
+    outline: 'border-2 border-gold text-[#FF7400] hover:bg-gold hover:text-white active:scale-95',
     'outline-light': 'border-2 border-white text-white hover:bg-white hover:text-navy active:scale-95',
     ghost: 'text-navy hover:bg-navy/5 active:scale-95',
     'ghost-light': 'text-white hover:bg-white/10 active:scale-95'

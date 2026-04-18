@@ -351,10 +351,28 @@
   background-clip: text;
 }
 
+/* Propager le gradient aux éléments enfants directs (spans dans les boutons, etc.) */
+.text-gold > span,
+.text-gold > a {
+  background: linear-gradient(135deg, #FF7400 0%, #E66800 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Réinitialiser le texte dégradé quand un hover change la couleur de texte,
    sinon webkit-text-fill-color masque la nouvelle couleur */
 .group:hover [class*="group-hover:text-"],
 [class*="hover:text-"]:hover {
+  -webkit-text-fill-color: currentColor;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+}
+.group:hover [class*="group-hover:text-"] > span,
+.group:hover [class*="group-hover:text-"] > a,
+[class*="hover:text-"]:hover > span,
+[class*="hover:text-"]:hover > a {
   -webkit-text-fill-color: currentColor;
   background: none;
   -webkit-background-clip: initial;
