@@ -124,7 +124,9 @@
               >
                 <div v-if="$page.props.flash?.success" class="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
                   <div class="flex items-center gap-3">
-                    <span class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600">✓</span>
+                    <span class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                      <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                    </span>
                     <p class="text-green-700 font-medium">{{ t('contact.success') }}</p>
                   </div>
                 </div>
