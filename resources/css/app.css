@@ -146,10 +146,10 @@
 
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(209, 101, 28, 0.3);
+    box-shadow: 0 0 20px rgba(255, 116, 0, 0.3);
   }
   50% {
-    box-shadow: 0 0 40px rgba(198, 61, 36, 0.6);
+    box-shadow: 0 0 40px rgba(230, 104, 0, 0.6);
   }
 }
 
@@ -283,19 +283,19 @@
 
 /* Primary gradient utilities */
 .bg-primary-gradient {
-  background: linear-gradient(135deg, #d1651c 0%, #c63d24 100%);
+  background: linear-gradient(135deg, #FF7400 0%, #E66800 100%);
 }
 .bg-primary-gradient-hover:hover {
-  background: linear-gradient(135deg, #c63d24 0%, #d1651c 100%);
+  background: linear-gradient(135deg, #E66800 0%, #FF7400 100%);
 }
 .text-primary-gradient {
-  background: linear-gradient(135deg, #d1651c 0%, #c63d24 100%);
+  background: linear-gradient(135deg, #FF7400 0%, #E66800 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .border-primary-gradient {
-  border-image: linear-gradient(135deg, #d1651c 0%, #c63d24 100%) 1;
+  border-image: linear-gradient(135deg, #FF7400 0%, #E66800 100%) 1;
 }
 
 /* Scrollbar styling */
@@ -306,9 +306,9 @@
   @apply bg-gray-100;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #d1651c 0%, #c63d24 100%);
+  background: linear-gradient(135deg, #FF7400 0%, #E66800 100%);
   @apply rounded-full;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #c63d24 0%, #d1651c 100%);
+  background: linear-gradient(135deg, #E66800 0%, #FF7400 100%);
 }
