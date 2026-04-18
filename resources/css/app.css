@@ -298,6 +298,37 @@
   border-image: linear-gradient(135deg, #FF7400 0%, #E66800 100%) 1;
 }
 
+/* ===== GRADIENT PARTOUT ===== */
+
+/* Tous les fonds gold solides → dégradé */
+.bg-gold {
+  background: linear-gradient(135deg, #FF7400 0%, #E66800 100%);
+}
+.bg-gold-dark {
+  background: linear-gradient(135deg, #E66800 0%, #CC5C00 100%);
+}
+.bg-gold-light {
+  background: linear-gradient(135deg, #FF9233 0%, #FF7400 100%);
+}
+
+/* Tout le texte gold → dégradé */
+.text-gold {
+  background: linear-gradient(135deg, #FF7400 0%, #E66800 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Réinitialiser le texte dégradé quand un hover change la couleur de texte,
+   sinon webkit-text-fill-color masque la nouvelle couleur */
+.group:hover [class*="group-hover:text-"],
+[class*="hover:text-"]:hover {
+  -webkit-text-fill-color: currentColor;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
