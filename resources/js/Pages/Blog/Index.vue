@@ -44,10 +44,16 @@
             class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 card-hover animate-fade-up"
             :style="{ transitionDelay: `${index * 100}ms` }"
           >
-            <!-- Image placeholder -->
+            <!-- Image -->
             <div class="aspect-[16/10] bg-gradient-to-br from-navy to-navy-700 relative overflow-hidden">
-              <div class="absolute inset-0 flex items-center justify-center">
-                <span class="text-6xl opacity-30">📄</span>
+              <img
+                v-if="p.image"
+                :src="p.image"
+                :alt="p.title"
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div v-else class="absolute inset-0 flex items-center justify-center">
+                <Icon name="document" size="2xl" class="text-white/30" />
               </div>
               <!-- Overlay on hover -->
               <div class="absolute inset-0 bg-gold/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

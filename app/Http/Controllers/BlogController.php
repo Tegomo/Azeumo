@@ -11,6 +11,7 @@ class BlogController extends Controller
         return Inertia::render('Blog/Index', [
             'posts' => Post::published()->get()->map(fn($p) => [
                 'slug' => $p->slug,
+                'image' => $p->image,
                 'title' => $p->title(),
                 'excerpt' => $p->excerpt(),
                 'tags' => $p->tags,

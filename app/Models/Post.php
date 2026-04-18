@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $fillable = [
-        'slug', 'title_fr', 'title_en', 'excerpt_fr', 'excerpt_en',
+        'slug', 'image', 'title_fr', 'title_en', 'excerpt_fr', 'excerpt_en',
         'body_fr', 'body_en', 'tags', 'published', 'published_at',
     ];
 
