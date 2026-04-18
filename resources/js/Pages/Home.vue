@@ -374,7 +374,7 @@ const SLIDE_DURATION = 6000 // ms
 const slides = computed(() => [
   {
     id: 1,
-    image: '/images/slider/voxafrica-1.jpg',
+    image: '/images/slider/thumb-1.jpg',
     tag: 'VoxAfrica · Voxbook 2014',
     title: locale.value === 'fr' ? 'L\'Intelligence Économique Africaine' : 'African Economic Intelligence',
     subtitle: 'Voxbook 2014 (I)',
@@ -386,7 +386,7 @@ const slides = computed(() => [
   },
   {
     id: 2,
-    image: '/images/slider/voxafrica-2.jpg',
+    image: '/images/slider/thumb-2.jpg',
     tag: 'VoxAfrica · Voxbook 2014',
     title: locale.value === 'fr' ? 'Stratégie & Compétitivité' : 'Strategy & Competitiveness',
     subtitle: 'Voxbook 2014 (II)',
@@ -398,7 +398,7 @@ const slides = computed(() => [
   },
   {
     id: 3,
-    image: '/images/slider/economie-communion.jpg',
+    image: '/images/slider/thumb-3.jpg',
     tag: locale.value === 'fr' ? 'Économie de Communion · IT' : 'Economy of Communion · IT',
     title: locale.value === 'fr' ? 'Économie de Communion' : 'Economy of Communion',
     subtitle: locale.value === 'fr' ? 'Technologies & Humanisme' : 'Technology & Humanism',
