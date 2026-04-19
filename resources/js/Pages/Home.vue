@@ -222,6 +222,86 @@
       </div>
     </section>
 
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center bg-navy overflow-hidden">
+      <!-- Animated background shapes -->
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-20 right-10 w-72 h-72 bg-gold/10 rounded-full blur-3xl animate-float"></div>
+        <div class="absolute bottom-20 left-10 w-96 h-96 bg-gold/5 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full"></div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <!-- Text content -->
+          <div class="text-white">
+            <div class="inline-flex items-center gap-3 mb-6 animate-fade-up">
+              <span class="w-12 h-px bg-gold"></span>
+              <span class="text-gold font-semibold text-sm tracking-widest uppercase">
+                {{ t('hero.tag') }}
+              </span>
+            </div>
+
+            <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-6 animate-fade-up delay-100">
+              Steve William
+              <span class="block text-gold mt-2">Azeumo</span>
+            </h1>
+
+            <p class="text-gray-300 text-lg lg:text-xl leading-relaxed mb-8 max-w-xl animate-fade-up delay-200">
+              {{ t('hero.subtitle') }}
+            </p>
+
+            <!-- Quote -->
+            <blockquote class="relative pl-6 border-l-2 border-gold/50 mb-10 animate-fade-up delay-300">
+              <p class="text-gray-400 italic text-sm lg:text-base">
+                "I've a dream that one day, Africa will be one Country with one Authority and one Nation."
+              </p>
+              <cite class="text-gold text-sm mt-2 block not-italic">— Lofty Azeumo</cite>
+            </blockquote>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-wrap gap-4 animate-fade-up delay-400">
+              <Button href="/services" size="lg" showArrow>
+                {{ t('hero.cta_services') }}
+              </Button>
+              <Button href="/contact" variant="outline-light" size="lg">
+                {{ t('hero.cta_contact') }}
+              </Button>
+            </div>
+          </div>
+
+          <!-- Image/Visual -->
+          <div class="hidden lg:block relative animate-fade-left delay-300">
+            <div class="relative">
+              <img
+                src="/images/azeumo/Steve.William-1024x833.png"
+                alt="Steve William Azeumo"
+                class="w-full rounded-3xl object-cover shadow-2xl"
+              />
+              <!-- Glow border -->
+              <div class="absolute inset-0 rounded-3xl ring-1 ring-gold/20 pointer-events-none"></div>
+
+              <!-- Experience badge -->
+              <div class="absolute -right-4 bottom-8 bg-white rounded-2xl shadow-2xl p-4 animate-float" style="animation-delay: -1s;">
+                <div class="text-center">
+                  <span class="font-display font-bold text-3xl text-navy">10+</span>
+                  <p class="text-xs text-gray-600 mt-1">{{ locale === 'fr' ? "Ans d'expérience" : 'Years Experience' }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div class="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
+          <div class="w-1 h-2 bg-gold rounded-full animate-pulse"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- Services Section -->
     <section class="section-padding bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -336,11 +416,11 @@
           <Button href="/contact" variant="secondary" size="lg" showArrow>
             {{ locale === 'fr' ? 'Planifier un rendez-vous' : 'Schedule a meeting' }}
           </Button>
-          <Button href="tel:+237674463867" variant="ghost-light" size="lg">
+          <Button href="tel:+237696550555" variant="ghost-light" size="lg">
             <template #iconLeft>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
             </template>
-            +237 674 463 867
+            +237 696 550 555
           </Button>
         </div>
       </div>

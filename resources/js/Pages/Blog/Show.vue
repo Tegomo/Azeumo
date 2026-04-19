@@ -35,8 +35,13 @@
 
     <!-- Article Content -->
     <section class="py-16 bg-white">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed ck-content" v-html="post.body"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Image mise en avant -->
+        <div v-if="post.image" class="mb-10 rounded-2xl overflow-hidden shadow-lg">
+          <img :src="post.image" :alt="post.title" class="w-full object-cover max-h-[480px]" />
+        </div>
+
+        <div class="prose prose-lg text-gray-700 leading-relaxed ck-content" v-html="post.body"></div>
 
         <div class="mt-12 pt-8 border-t border-gray-100">
           <Link href="/blog" class="inline-flex items-center gap-2 text-gold font-semibold hover:underline">

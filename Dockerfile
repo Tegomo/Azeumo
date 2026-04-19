@@ -56,6 +56,9 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 # Nginx config
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 
+# PHP upload limits
+COPY docker/php-uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 # PHP-FPM config
 COPY docker/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 

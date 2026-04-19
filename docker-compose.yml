@@ -12,6 +12,8 @@ services:
       - "traefik.http.routers.azeumo.entrypoints=websecure"
       - "traefik.http.routers.azeumo.tls.certresolver=letsencrypt"
       - "traefik.http.services.azeumo.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.azeumo-body.buffering.maxRequestBodyBytes=20971520"
+      - "traefik.http.routers.azeumo.middlewares=azeumo-body"
     environment:
       APP_NAME: Azeumo
       APP_ENV: production
