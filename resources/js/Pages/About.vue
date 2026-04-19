@@ -32,7 +32,7 @@
           <!-- Image -->
           <div class="relative animate-fade-right">
             <div class="aspect-[4/5] bg-gray-100 rounded-3xl overflow-hidden relative">
-              <img src="/images/profile/portrait.jpg" alt="Steve William Azeumo" class="absolute inset-0 w-full h-full object-cover object-top" />
+              <img src="/images/profile/portrait.jpg" alt="Steve William Azeumo" class="absolute inset-0 w-full h-full object-cover object-center" />
               <!-- Decorative frame -->
               <div class="absolute -bottom-4 -right-4 w-full h-full border-2 border-gold rounded-3xl -z-10"></div>
             </div>
