@@ -26,6 +26,7 @@ class BlogController extends Controller
         return Inertia::render('Blog/Show', [
             'post' => [
                 'slug' => $post->slug,
+                'image' => $post->image,
                 'title' => $post->title(),
                 'body' => $post->body(),
                 'tags' => $post->tags,

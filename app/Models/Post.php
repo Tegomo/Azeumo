@@ -26,7 +26,8 @@ class Post extends Model
     public function excerpt(): string
     {
         $locale = app()->getLocale();
-        return $this->{"excerpt_{$locale}"} ?? $this->excerpt_fr;
+        $raw = $this->{"excerpt_{$locale}"} ?? $this->excerpt_fr ?? '';
+        return strip_tags($raw);
     }
 
     public function body(): string

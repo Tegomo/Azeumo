@@ -23,7 +23,7 @@
     "url": "https://www.azeumo.com",
     "jobTitle": "Consultant en Intelligence Économique",
     "email": "contact@azeumo.com",
-    "telephone": "+237674463867",
+    "telephone": "+237696550555",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Yaoundé",

@@ -1,66 +1,206 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Azeumo — Site personnel de Steve William Azeumo
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Site Laravel 11 + Vue 3 + Inertia.js, bilingue FR/EN, avec backend admin style WordPress.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Stack technique
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Couche | Technologie |
+|--------|-------------|
+| Backend | Laravel 11 (PHP 8.3) |
+| Frontend | Vue 3 + Inertia.js + Vite |
+| CSS | Tailwind CSS v3 |
+| Base de données | MySQL 8 |
+| Serveur web | Nginx (dans le conteneur) |
+| Conteneur | Docker + Docker Compose |
+| Reverse proxy | Traefik (géré par Dokploy) |
+| Éditeur riche | CKEditor 5 v37.1.0 (CDN) |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Prérequis
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Docker & Docker Compose installés
+- Traefik configuré sur le réseau `dokploy-network`
+- Base de données MySQL accessible (hôte, port, identifiants)
+- Domaine DNS pointant vers le serveur
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Déploiement initial
 
-## Laravel Sponsors
+### 1. Cloner le dépôt
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+git clone https://github.com/<user>/azeumo.git
+cd azeumo
+```
 
-### Premium Partners
+### 2. Variables d'environnement
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Les variables sont définies directement dans `docker-compose.yml` (section `environment`).
+Adapter les valeurs suivantes :
 
-## Contributing
+```yaml
+APP_KEY: base64:<générer avec la commande ci-dessous>
+APP_URL: https://votre-domaine.com
+DB_HOST: <ip-du-serveur-mysql>
+DB_PORT: 3306
+DB_DATABASE: azeumo
+DB_USERNAME: azeumo
+DB_PASSWORD: <mot-de-passe>
+SESSION_DOMAIN: votre-domaine.com
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Générer une APP_KEY :
+```bash
+docker run --rm php:8.3-cli php -r "echo 'base64:'.base64_encode(random_bytes(32)).PHP_EOL;"
+```
 
-## Code of Conduct
+### 3. Construire et démarrer
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+docker compose build
+docker compose up -d
+```
 
-## Security Vulnerabilities
+### 4. Initialiser la base de données
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+docker exec azeumo-app php artisan migrate --force
+```
 
-## License
+### 5. Créer le compte administrateur
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+docker exec -it azeumo-app php artisan tinker
+```
+
+```php
+App\Models\User::create([
+    'name' => 'Admin',
+    'email' => 'admin@exemple.com',
+    'password' => bcrypt('mot-de-passe-securise'),
+]);
+```
+
+---
+
+## Mise à jour (redéploiement)
+
+```bash
+git pull origin main
+docker compose build
+docker compose up -d
+docker exec azeumo-app php artisan migrate --force
+docker exec azeumo-app php artisan config:clear
+docker exec azeumo-app php artisan view:clear
+```
+
+> Les assets frontend (JS/CSS) sont compilés pendant le `docker build` via `npm run build`. Aucune action supplémentaire n'est requise.
+
+---
+
+## Structure du projet
+
+```
+azeumo/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── Admin/          # Backend admin (articles, services, messages)
+│   │   └── ...             # Contrôleurs frontend
+│   └── Models/             # Post, Service, User...
+├── docker/
+│   ├── nginx.conf          # Config Nginx (client_max_body_size 20M)
+│   ├── php-uploads.ini     # Limites PHP upload (20M)
+│   ├── php-fpm.conf
+│   ├── supervisord.conf
+│   └── entrypoint.sh
+├── resources/
+│   ├── js/
+│   │   ├── Pages/          # Pages Vue (Inertia)
+│   │   └── Components/     # Composants réutilisables
+│   └── views/
+│       └── admin/          # Vues Blade backend admin
+├── public/images/          # Images statiques (profil, blog, slider...)
+├── Dockerfile
+└── docker-compose.yml
+```
+
+---
+
+## Accès admin
+
+URL : `https://votre-domaine.com/admin`
+
+Fonctionnalités :
+- **Articles** : création, modification, suppression, image mise en avant, CKEditor bilingue FR/EN
+- **Services** : gestion des services affichés sur le site
+- **Messages** : consultation des messages du formulaire de contact
+
+---
+
+## Limites de fichiers configurées
+
+| Paramètre | Valeur |
+|-----------|--------|
+| PHP `upload_max_filesize` | 20 MB |
+| PHP `post_max_size` | 25 MB |
+| Nginx `client_max_body_size` | 20 MB |
+| Traefik buffer | 20 MB |
+
+---
+
+## Images statiques
+
+Les images sont servies depuis `public/images/` :
+
+| Dossier | Usage |
+|---------|-------|
+| `profile/` | Portrait page À propos et Hero |
+| `blog/` | Images mises en avant des articles |
+| `slider/` | Miniatures YouTube du slider hero |
+| `pages/` | Images de fond (contact, à propos) |
+| `services/` | Images des services |
+| `azeumo/` | Photos personnelles |
+
+---
+
+## Réseau Docker
+
+Le conteneur doit être sur le réseau externe Traefik `dokploy-network` :
+
+```yaml
+networks:
+  dokploy-network:
+    external: true
+```
+
+---
+
+## Dépannage
+
+**Erreur 500**
+```bash
+docker exec azeumo-app tail -100 /var/www/html/storage/logs/laravel.log
+```
+
+**Problème de permissions sur storage/**
+```bash
+docker exec azeumo-app chown -R www-data:www-data /var/www/html/storage
+docker exec azeumo-app chmod -R 775 /var/www/html/storage
+```
+
+**Vider les caches Laravel**
+```bash
+docker exec azeumo-app php artisan config:clear
+docker exec azeumo-app php artisan view:clear
+docker exec azeumo-app php artisan cache:clear
+```
+
+**Upload d'images impossible (500)**
+```bash
+docker exec azeumo-app chown -R www-data:www-data /var/www/html/public/images
+docker exec azeumo-app chmod -R 775 /var/www/html/public/images
+```

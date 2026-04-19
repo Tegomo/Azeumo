@@ -119,16 +119,24 @@ import { useRoute } from '../../composables/useI18n'
 defineProps({ posts: Array })
 const { t, locale } = useRoute()
 
+function parseDate(dateStr) {
+  if (!dateStr) return null
+  // Handle d/m/Y format from Laravel
+  const parts = dateStr.split('/')
+  if (parts.length === 3) return new Date(parts[2], parts[1] - 1, parts[0])
+  return new Date(dateStr)
+}
+
 function formatDay(dateStr) {
-  if (!dateStr) return '--'
-  const date = new Date(dateStr)
+  const date = parseDate(dateStr)
+  if (!date || isNaN(date)) return '--'
   return date.getDate().toString().padStart(2, '0')
 }
 
 function formatMonth(dateStr) {
-  if (!dateStr) return '---'
-  const date = new Date(dateStr)
-  const months = locale === 'fr'
+  const date = parseDate(dateStr)
+  if (!date || isNaN(date)) return '---'
+  const months = locale.value === 'fr'
     ? ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc']
     : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   return months[date.getMonth()]

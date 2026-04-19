@@ -55,7 +55,7 @@
   <a href="{{ route('admin.posts.index') }}" class="button" style="margin-left:8px;">← Retour</a>
 </div>
 
-<form method="POST" action="{{ route('admin.posts.store') }}" id="post-form">
+<form method="POST" action="{{ route('admin.posts.store') }}" id="post-form" enctype="multipart/form-data">
 @csrf
 
 <div id="poststuff">
@@ -95,7 +95,7 @@
             <div class="ck-editor-label">🇫🇷 Extrait français</div>
             <div id="editor-excerpt-fr"></div>
           </div>
-          <textarea name="excerpt_fr" id="textarea-excerpt-fr" style="display:none;" required>{{ old('excerpt_fr') }}</textarea>
+          <textarea name="excerpt_fr" id="textarea-excerpt-fr" style="display:none;">{{ old('excerpt_fr') }}</textarea>
           @error('excerpt_fr')<p class="field-error">{{ $message }}</p>@enderror
         </div>
         <div>
@@ -103,7 +103,7 @@
             <div class="ck-editor-label">🇬🇧 English excerpt</div>
             <div id="editor-excerpt-en"></div>
           </div>
-          <textarea name="excerpt_en" id="textarea-excerpt-en" style="display:none;" required>{{ old('excerpt_en') }}</textarea>
+          <textarea name="excerpt_en" id="textarea-excerpt-en" style="display:none;">{{ old('excerpt_en') }}</textarea>
         </div>
       </div>
     </div>
@@ -117,7 +117,7 @@
             <div class="ck-editor-label">🇫🇷 Contenu français</div>
             <div id="editor-body-fr"></div>
           </div>
-          <textarea name="body_fr" id="textarea-body-fr" style="display:none;" required>{{ old('body_fr') }}</textarea>
+          <textarea name="body_fr" id="textarea-body-fr" style="display:none;">{{ old('body_fr') }}</textarea>
           @error('body_fr')<p class="field-error">{{ $message }}</p>@enderror
         </div>
         <div>
@@ -125,7 +125,7 @@
             <div class="ck-editor-label">🇬🇧 English content</div>
             <div id="editor-body-en"></div>
           </div>
-          <textarea name="body_en" id="textarea-body-en" style="display:none;" required>{{ old('body_en') }}</textarea>
+          <textarea name="body_en" id="textarea-body-en" style="display:none;">{{ old('body_en') }}</textarea>
         </div>
       </div>
     </div>
@@ -166,10 +166,44 @@
       </div>
     </div>
 
+    <!-- Image mise en avant -->
+    <div class="postbox">
+      <div class="postbox-header"><h2>Image mise en avant</h2></div>
+      <div class="inside">
+        <div id="featured-image-preview" style="display:none;margin-bottom:10px;">
+          <img id="featured-image-thumb" src="" alt="Aperçu" style="width:100%;border-radius:3px;border:1px solid #c3c4c7;" />
+          <button type="button" onclick="removeImage()" style="margin-top:6px;font-size:12px;color:#b32d2e;background:none;border:none;cursor:pointer;padding:0;">✕ Supprimer l'image</button>
+        </div>
+        <label for="image" style="display:block;padding:12px;border:2px dashed #c3c4c7;border-radius:3px;text-align:center;cursor:pointer;color:#646970;font-size:13px;" id="featured-image-label">
+          <svg style="width:24px;height:24px;margin:0 auto 6px;display:block;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Définir l'image mise en avant
+        </label>
+        <input type="file" name="image" id="image" accept="image/*" style="display:none;" onchange="previewImage(this)" />
+      </div>
+    </div>
+
   </div>
 
 </div>
 </form>
+
+<script>
+function previewImage(input) {
+  const preview = document.getElementById('featured-image-preview');
+  const thumb = document.getElementById('featured-image-thumb');
+  const label = document.getElementById('featured-image-label');
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => { thumb.src = e.target.result; preview.style.display = 'block'; label.style.display = 'none'; };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+function removeImage() {
+  document.getElementById('image').value = '';
+  document.getElementById('featured-image-preview').style.display = 'none';
+  document.getElementById('featured-image-label').style.display = 'block';
+}
+</script>
 
 @endsection
 
