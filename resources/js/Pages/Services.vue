@@ -125,8 +125,8 @@ defineProps({ services: Array })
 const { t, locale } = useRoute()
 
 const serviceImages = {
-  'conseil-management':        '/images/services/gestion-projet.jpg',
-  'conception-gestion-projets':'/images/services/gestion-projet.jpg',
+  'conseil-management':        '/images/services/conseil-management.jpg',
+  'conception-gestion-projets':'/images/services/conception-gestion-projets.jpg',
   'intelligence-economique':   '/images/services/intelligence-economique.jpg',
   'veille-due-diligence':      '/images/services/veille.jpg',
   'projets-developpement':     '/images/services/afrique.jpg',

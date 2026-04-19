@@ -272,8 +272,8 @@
           </div>
 
           <!-- Image/Visual -->
-          <div class="hidden lg:block relative animate-fade-left delay-300">
-            <div class="relative">
+          <div class="hidden lg:flex items-center relative animate-fade-left delay-300">
+            <div class="relative w-full">
               <img
                 src="/images/azeumo/Steve.William-1024x833.png"
                 alt="Steve William Azeumo"
