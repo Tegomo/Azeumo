@@ -27,6 +27,8 @@ services:
       DB_USERNAME: azeumo
       DB_PASSWORD: azeumo2026!
       SESSION_DRIVER: database
+      SESSION_SECURE_COOKIE: "true"
+      SESSION_DOMAIN: azeumo.cloud.anuvis.net
       CACHE_STORE: database
       QUEUE_CONNECTION: sync
     networks:

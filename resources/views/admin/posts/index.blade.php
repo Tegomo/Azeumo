@@ -1,41 +1,70 @@
 @extends('admin.layout')
+@section('title', 'Articles')
 @section('content')
-<div class="flex items-center justify-between mb-6">
-  <h1 class="font-display font-bold text-2xl text-navy">Articles</h1>
-  <a href="{{ route('admin.posts.create') }}" class="bg-gold text-navy px-4 py-2 rounded font-semibold text-sm">+ Nouvel article</a>
+
+<div class="title-area">
+  <h1 class="wp-heading-inline">Articles</h1>
+  <a href="{{ route('admin.posts.create') }}" class="page-title-action">
+    <svg style="width:13px;height:13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+    Ajouter
+  </a>
 </div>
-<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-  <table class="w-full text-sm">
-    <thead class="bg-gray-50 border-b border-gray-200">
-      <tr>
-        <th class="text-left p-3">Titre (FR)</th>
-        <th class="text-left p-3">Statut</th>
-        <th class="text-left p-3">Date</th>
-        <th class="p-3"></th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-gray-100">
-      @forelse($posts as $post)
-      <tr>
-        <td class="p-3 font-medium">{{ $post->title_fr }}</td>
-        <td class="p-3">
-          <span class="px-2 py-0.5 rounded text-xs {{ $post->published ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
-            {{ $post->published ? 'Publié' : 'Brouillon' }}
+
+<div class="tablenav">
+  <span style="font-size:13px;color:#646970;">{{ $posts->count() }} article(s)</span>
+</div>
+
+<table class="wp-list-table">
+  <thead>
+    <tr>
+      <th style="width:40%;">Titre</th>
+      <th>Statut</th>
+      <th>Date</th>
+      <th style="width:80px;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    @forelse($posts as $post)
+    <tr>
+      <td class="column-title">
+        <a href="{{ route('admin.posts.edit', $post) }}" style="color:#1d2327;text-decoration:none;font-weight:600;">
+          {{ $post->title_fr }}
+        </a>
+        @if($post->title_en)
+          <span style="color:#646970;font-size:12px;display:block;font-weight:400;">EN: {{ Str::limit($post->title_en, 60) }}</span>
+        @endif
+        <div class="row-actions">
+          <span class="edit"><a href="{{ route('admin.posts.edit', $post) }}">Modifier</a></span>
+          <span class="view"><a href="{{ url('/blog/'.$post->slug) }}" target="_blank">Voir</a></span>
+          <span class="delete">
+            <form method="POST" action="{{ route('admin.posts.destroy', $post) }}" style="display:inline;" onsubmit="return confirm('Supprimer cet article ?')">
+              @csrf @method('DELETE')
+              <button type="submit">Corbeille</button>
+            </form>
           </span>
-        </td>
-        <td class="p-3 text-gray-500">{{ $post->published_at?->format('d/m/Y') ?? '—' }}</td>
-        <td class="p-3 flex gap-2 justify-end">
-          <a href="{{ route('admin.posts.edit', $post) }}" class="text-gold hover:underline text-xs">Modifier</a>
-          <form method="POST" action="{{ route('admin.posts.destroy', $post) }}" onsubmit="return confirm('Supprimer ?')">
-            @csrf @method('DELETE')
-            <button type="submit" class="text-red-500 hover:underline text-xs">Supprimer</button>
-          </form>
-        </td>
-      </tr>
-      @empty
-      <tr><td colspan="4" class="p-4 text-center text-gray-400">Aucun article.</td></tr>
-      @endforelse
-    </tbody>
-  </table>
-</div>
+        </div>
+      </td>
+      <td>
+        <span class="status-badge {{ $post->published ? 'published' : 'draft' }}">
+          {{ $post->published ? 'Publié' : 'Brouillon' }}
+        </span>
+      </td>
+      <td style="color:#646970;font-size:13px;white-space:nowrap;">
+        {{ $post->published_at?->format('d/m/Y') ?? '—' }}
+      </td>
+      <td>
+        <a href="{{ route('admin.posts.edit', $post) }}" class="button" style="font-size:12px;padding:3px 8px;">Modifier</a>
+      </td>
+    </tr>
+    @empty
+    <tr>
+      <td colspan="4" style="text-align:center;padding:24px;color:#646970;">
+        Aucun article pour l'instant.
+        <a href="{{ route('admin.posts.create') }}" style="color:#FF7400;">Créer le premier ?</a>
+      </td>
+    </tr>
+    @endforelse
+  </tbody>
+</table>
+
 @endsection

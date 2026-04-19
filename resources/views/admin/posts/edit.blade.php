@@ -1,51 +1,237 @@
 @extends('admin.layout')
+@section('title', 'Modifier — '.$post->title_fr)
+
+@push('head')
+<style>
+  .ck.ck-editor { border: 1px solid #c3c4c7!important; border-radius: 3px!important; }
+  .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
+    background: #f6f7f7!important;
+    border-bottom: 1px solid #c3c4c7!important;
+    border-radius: 3px 3px 0 0!important;
+    padding: 4px 6px!important;
+  }
+  .ck.ck-editor__main .ck-editor__editable {
+    min-height: 300px; font-size: 14px; line-height: 1.7; color: #1d2327;
+    border: none!important; border-radius: 0 0 3px 3px!important;
+    padding: 12px 16px!important; box-shadow: none!important;
+  }
+  .ck-editor-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .06em; color: #646970;
+    padding: 5px 10px; background: #f0f0f1;
+    border-bottom: 1px solid #c3c4c7;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ck-editor-wrapper {
+    border: 1px solid #c3c4c7; border-radius: 3px;
+    overflow: hidden; margin-bottom: 16px;
+  }
+  .ck-editor-wrapper .ck.ck-editor { border: none!important; border-radius: 0!important; }
+  .ck-editor-wrapper .ck.ck-editor__top .ck-sticky-panel .ck-toolbar { border-radius: 0!important; }
+</style>
+@endpush
+
 @section('content')
-<h1 class="font-display font-bold text-2xl text-navy mb-6">Modifier l'article</h1>
-<form method="POST" action="{{ route('admin.posts.update', $post) }}" class="space-y-6 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-  @csrf @method('PUT')
-  <div class="grid md:grid-cols-2 gap-4">
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Titre (FR) *</label>
-      <input name="title_fr" value="{{ old('title_fr', $post->title_fr) }}" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+
+<div class="title-area">
+  <h1 class="wp-heading-inline">Modifier l'article</h1>
+  <a href="{{ route('admin.posts.index') }}" class="button" style="margin-left:8px;">← Retour</a>
+  <a href="{{ url('/blog/'.$post->slug) }}" target="_blank" class="button" style="margin-left:4px;">↗ Voir</a>
+</div>
+
+<form method="POST" action="{{ route('admin.posts.update', $post) }}" id="post-form">
+@csrf @method('PUT')
+
+<div id="poststuff">
+  <!-- MAIN COLUMN -->
+  <div id="post-body">
+
+    <!-- Titre FR -->
+    <div class="postbox">
+      <div class="postbox-header" style="border-bottom:none;padding-bottom:0;">
+        <h2 style="font-size:13px;color:#646970;font-weight:400;">Titre français</h2>
+      </div>
+      <div class="inside" style="padding-top:0;">
+        <input type="text" id="title" name="title_fr"
+          value="{{ old('title_fr', $post->title_fr) }}"
+          placeholder="Saisir le titre en français…" required />
+      </div>
     </div>
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Titre (EN) *</label>
-      <input name="title_en" value="{{ old('title_en', $post->title_en) }}" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+
+    <!-- Titre EN -->
+    <div class="postbox">
+      <div class="postbox-header" style="border-bottom:none;padding-bottom:0;">
+        <h2 style="font-size:13px;color:#646970;font-weight:400;">Titre anglais</h2>
+      </div>
+      <div class="inside" style="padding-top:0;">
+        <input type="text" name="title_en"
+          value="{{ old('title_en', $post->title_en) }}"
+          placeholder="Enter the English title…" required
+          style="width:100%;padding:12px 14px;font-size:22px;font-weight:400;border:1px solid #c3c4c7;border-radius:3px;color:#1d2327;outline:none;line-height:1.4;" />
+      </div>
     </div>
+
+    <!-- Extrait -->
+    <div class="postbox">
+      <div class="postbox-header"><h2>Extrait (résumé)</h2></div>
+      <div class="inside">
+        <div style="margin-bottom:12px;">
+          <div class="ck-editor-wrapper">
+            <div class="ck-editor-label">🇫🇷 Extrait français</div>
+            <div id="editor-excerpt-fr"></div>
+          </div>
+          <textarea name="excerpt_fr" id="textarea-excerpt-fr" style="display:none;" required>{{ old('excerpt_fr', $post->excerpt_fr) }}</textarea>
+        </div>
+        <div>
+          <div class="ck-editor-wrapper">
+            <div class="ck-editor-label">🇬🇧 English excerpt</div>
+            <div id="editor-excerpt-en"></div>
+          </div>
+          <textarea name="excerpt_en" id="textarea-excerpt-en" style="display:none;" required>{{ old('excerpt_en', $post->excerpt_en) }}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Corps -->
+    <div class="postbox">
+      <div class="postbox-header"><h2>Corps de l'article</h2></div>
+      <div class="inside">
+        <div style="margin-bottom:16px;">
+          <div class="ck-editor-wrapper">
+            <div class="ck-editor-label">🇫🇷 Contenu français</div>
+            <div id="editor-body-fr"></div>
+          </div>
+          <textarea name="body_fr" id="textarea-body-fr" style="display:none;" required>{{ old('body_fr', $post->body_fr) }}</textarea>
+        </div>
+        <div>
+          <div class="ck-editor-wrapper">
+            <div class="ck-editor-label">🇬🇧 English content</div>
+            <div id="editor-body-en"></div>
+          </div>
+          <textarea name="body_en" id="textarea-body-en" style="display:none;" required>{{ old('body_en', $post->body_en) }}</textarea>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /#post-body -->
+
+  <!-- SIDEBAR -->
+  <div id="postbox-container-1">
+
+    <div class="postbox">
+      <div class="postbox-header"><h2>Publier</h2></div>
+      <div class="inside">
+        <div class="publish-status-row">
+          <span>Statut</span>
+          <strong>{{ $post->published ? 'Publié' : 'Brouillon' }}</strong>
+        </div>
+        <div class="publish-status-row">
+          <span>Visibilité</span>
+          <strong>Public</strong>
+        </div>
+        @if($post->published_at)
+        <div class="publish-status-row">
+          <span>Publié le</span>
+          <strong>{{ $post->published_at->format('d/m/Y') }}</strong>
+        </div>
+        @endif
+        <div class="wp-check" style="margin-bottom:12px;">
+          <input type="checkbox" name="published" value="1" id="published" {{ $post->published ? 'checked' : '' }} />
+          <label for="published">{{ $post->published ? 'Publié' : 'Publier' }}</label>
+        </div>
+        <div class="publish-action">
+          <form method="POST" action="{{ route('admin.posts.destroy', $post) }}"
+            style="display:inline;" onsubmit="return confirm('Supprimer ?')">
+            @csrf @method('DELETE')
+            <button type="submit" class="button-link-delete">Corbeille</button>
+          </form>
+          <button type="submit" class="button button-primary">Mettre à jour</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="postbox">
+      <div class="postbox-header"><h2>Tags</h2></div>
+      <div class="inside">
+        <input type="text" name="tags"
+          value="{{ old('tags', is_array($post->tags) ? implode(', ', $post->tags) : '') }}"
+          class="wp-input" placeholder="IE, Cameroun, OSINT" />
+        <span class="description" style="display:block;font-size:12px;color:#646970;margin-top:4px;">Séparer par des virgules.</span>
+      </div>
+    </div>
+
+    <div class="postbox">
+      <div class="postbox-header"><h2>Permalien</h2></div>
+      <div class="inside">
+        <p style="font-size:12px;color:#646970;margin:0 0 6px;">/blog/</p>
+        <code style="font-size:12px;background:#f0f0f1;padding:4px 8px;border-radius:2px;display:block;word-break:break-all;">{{ $post->slug }}</code>
+      </div>
+    </div>
+
   </div>
-  <div class="grid md:grid-cols-2 gap-4">
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Extrait (FR) *</label>
-      <textarea name="excerpt_fr" rows="3" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">{{ old('excerpt_fr', $post->excerpt_fr) }}</textarea>
-    </div>
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Extrait (EN) *</label>
-      <textarea name="excerpt_en" rows="3" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">{{ old('excerpt_en', $post->excerpt_en) }}</textarea>
-    </div>
-  </div>
-  <div class="grid md:grid-cols-2 gap-4">
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Corps (FR) *</label>
-      <textarea name="body_fr" rows="10" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono">{{ old('body_fr', $post->body_fr) }}</textarea>
-    </div>
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Corps (EN) *</label>
-      <textarea name="body_en" rows="10" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono">{{ old('body_en', $post->body_en) }}</textarea>
-    </div>
-  </div>
-  <div class="flex items-center gap-6">
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Tags</label>
-      <input name="tags" value="{{ old('tags', is_array($post->tags) ? implode(', ', $post->tags) : '') }}" class="border border-gray-300 rounded px-3 py-2 text-sm" />
-    </div>
-    <div class="flex items-center gap-2 mt-5">
-      <input type="checkbox" name="published" value="1" id="published" {{ $post->published ? 'checked' : '' }} />
-      <label for="published" class="text-sm font-semibold text-gray-700">Publié</label>
-    </div>
-  </div>
-  <div class="flex gap-3">
-    <button type="submit" class="bg-gold text-navy px-6 py-2 rounded font-semibold text-sm">Mettre à jour</button>
-    <a href="{{ route('admin.posts.index') }}" class="text-gray-500 hover:text-navy px-4 py-2 text-sm">Annuler</a>
-  </div>
+
+</div>
 </form>
+
 @endsection
+
+@push('scripts')
+<script>
+const CK_CONFIG = {
+  toolbar: {
+    items: [
+      'heading', '|',
+      'bold', 'italic', 'underline', 'strikethrough', '|',
+      'bulletedList', 'numberedList', '|',
+      'outdent', 'indent', '|',
+      'blockQuote', 'link', '|',
+      'alignment', '|',
+      'undo', 'redo'
+    ]
+  },
+  heading: {
+    options: [
+      { model: 'paragraph', title: 'Paragraphe', class: 'ck-heading_paragraph' },
+      { model: 'heading2', view: 'h2', title: 'Titre 2', class: 'ck-heading_heading2' },
+      { model: 'heading3', view: 'h3', title: 'Titre 3', class: 'ck-heading_heading3' },
+      { model: 'heading4', view: 'h4', title: 'Titre 4', class: 'ck-heading_heading4' },
+    ]
+  },
+  language: 'fr',
+};
+
+const editors = {};
+
+const editorDefs = [
+  { id: 'editor-excerpt-fr', textarea: 'textarea-excerpt-fr', minHeight: '100px' },
+  { id: 'editor-excerpt-en', textarea: 'textarea-excerpt-en', minHeight: '100px' },
+  { id: 'editor-body-fr',    textarea: 'textarea-body-fr',    minHeight: '320px' },
+  { id: 'editor-body-en',    textarea: 'textarea-body-en',    minHeight: '320px' },
+];
+
+editorDefs.forEach(({ id, textarea, minHeight }) => {
+  const el = document.getElementById(id);
+  const ta = document.getElementById(textarea);
+
+  ClassicEditor.create(el, {
+    ...CK_CONFIG,
+    initialData: ta.value || '',
+  })
+  .then(editor => {
+    editors[id] = editor;
+    editor.editing.view.change(writer => {
+      writer.setStyle('min-height', minHeight, editor.editing.view.document.getRoot());
+    });
+  })
+  .catch(console.error);
+});
+
+document.getElementById('post-form').addEventListener('submit', () => {
+  editorDefs.forEach(({ id, textarea }) => {
+    if (editors[id]) {
+      document.getElementById(textarea).value = editors[id].getData();
+    }
+  });
+});
+</script>
+@endpush

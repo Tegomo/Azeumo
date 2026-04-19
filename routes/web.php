@@ -29,3 +29,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('messages', [\App\Http\Controllers\Admin\MessageController::class, 'index'])->name('messages.index');
     Route::patch('messages/{message}/read', [\App\Http\Controllers\Admin\MessageController::class, 'markRead'])->name('messages.read');
 });
+
+require __DIR__.'/auth.php';

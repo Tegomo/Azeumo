@@ -393,3 +393,22 @@
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #E66800 0%, #FF7400 100%);
 }
+
+/* ===== CK-CONTENT (HTML from CKEditor rendered on frontend) ===== */
+.ck-content h2 { @apply text-2xl font-bold text-navy mt-8 mb-4; }
+.ck-content h3 { @apply text-xl font-bold text-navy mt-6 mb-3; }
+.ck-content h4 { @apply text-lg font-semibold text-navy mt-4 mb-2; }
+.ck-content p  { @apply mb-4 text-gray-700 leading-relaxed; }
+.ck-content ul { @apply list-disc pl-6 mb-4 space-y-1; }
+.ck-content ol { @apply list-decimal pl-6 mb-4 space-y-1; }
+.ck-content li { @apply text-gray-700; }
+.ck-content blockquote {
+  @apply border-l-4 border-gold pl-5 py-1 my-6 italic text-gray-600;
+}
+.ck-content strong { @apply font-semibold text-gray-900; }
+.ck-content a { @apply text-gold underline; }
+.ck-content code {
+  @apply font-mono text-sm bg-gray-100 px-1.5 py-0.5 rounded;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+}

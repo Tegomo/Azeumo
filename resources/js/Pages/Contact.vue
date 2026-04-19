@@ -225,6 +225,8 @@ const { t, locale } = useRoute()
 const form = useForm({ name: '', email: '', subject: '', message: '' })
 
 function submit() {
-  form.post('/contact')
+  form.post('/contact', {
+    onSuccess: () => form.reset(),
+  })
 }
 </script>

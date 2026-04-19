@@ -1,37 +1,63 @@
 @extends('admin.layout')
+@section('title', 'Services')
 @section('content')
-<div class="flex items-center justify-between mb-6">
-  <h1 class="font-display font-bold text-2xl text-navy">Services</h1>
-  <a href="{{ route('admin.services.create') }}" class="bg-gold text-navy px-4 py-2 rounded font-semibold text-sm">+ Nouveau service</a>
+
+<div class="title-area">
+  <h1 class="wp-heading-inline">Services</h1>
+  <a href="{{ route('admin.services.create') }}" class="page-title-action">
+    <svg style="width:13px;height:13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+    Ajouter
+  </a>
 </div>
-<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-  <table class="w-full text-sm">
-    <thead class="bg-gray-50 border-b border-gray-200">
-      <tr>
-        <th class="text-left p-3">Icône</th>
-        <th class="text-left p-3">Titre (FR)</th>
-        <th class="text-left p-3">Ordre</th>
-        <th class="p-3"></th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-gray-100">
-      @forelse($services as $service)
-      <tr>
-        <td class="p-3 text-2xl">{{ $service->icon }}</td>
-        <td class="p-3 font-medium">{{ $service->title_fr }}</td>
-        <td class="p-3 text-gray-500">{{ $service->order }}</td>
-        <td class="p-3 flex gap-2 justify-end">
-          <a href="{{ route('admin.services.edit', $service) }}" class="text-gold hover:underline text-xs">Modifier</a>
-          <form method="POST" action="{{ route('admin.services.destroy', $service) }}" onsubmit="return confirm('Supprimer ?')">
-            @csrf @method('DELETE')
-            <button type="submit" class="text-red-500 hover:underline text-xs">Supprimer</button>
-          </form>
-        </td>
-      </tr>
-      @empty
-      <tr><td colspan="4" class="p-4 text-center text-gray-400">Aucun service.</td></tr>
-      @endforelse
-    </tbody>
-  </table>
+
+<div class="tablenav">
+  <span style="font-size:13px;color:#646970;">{{ $services->count() }} service(s)</span>
 </div>
+
+<table class="wp-list-table">
+  <thead>
+    <tr>
+      <th style="width:50px;">Ordre</th>
+      <th>Titre</th>
+      <th style="width:80px;">Icône</th>
+      <th style="width:80px;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    @forelse($services as $service)
+    <tr>
+      <td style="color:#646970;text-align:center;">{{ $service->order }}</td>
+      <td class="column-title">
+        <a href="{{ route('admin.services.edit', $service) }}" style="color:#1d2327;text-decoration:none;font-weight:600;">
+          {{ $service->title_fr }}
+        </a>
+        @if($service->title_en)
+          <span style="color:#646970;font-size:12px;display:block;font-weight:400;">EN: {{ Str::limit($service->title_en, 60) }}</span>
+        @endif
+        <div class="row-actions">
+          <span class="edit"><a href="{{ route('admin.services.edit', $service) }}">Modifier</a></span>
+          <span class="delete">
+            <form method="POST" action="{{ route('admin.services.destroy', $service) }}" style="display:inline;" onsubmit="return confirm('Supprimer ce service ?')">
+              @csrf @method('DELETE')
+              <button type="submit">Corbeille</button>
+            </form>
+          </span>
+        </div>
+      </td>
+      <td style="font-size:13px;color:#646970;">{{ $service->icon }}</td>
+      <td>
+        <a href="{{ route('admin.services.edit', $service) }}" class="button" style="font-size:12px;padding:3px 8px;">Modifier</a>
+      </td>
+    </tr>
+    @empty
+    <tr>
+      <td colspan="4" style="text-align:center;padding:24px;color:#646970;">
+        Aucun service.
+        <a href="{{ route('admin.services.create') }}" style="color:#FF7400;">Créer le premier ?</a>
+      </td>
+    </tr>
+    @endforelse
+  </tbody>
+</table>
+
 @endsection

@@ -1,52 +1,238 @@
 @extends('admin.layout')
+@section('title', 'Nouvel article')
+
+@push('head')
+<style>
+  /* CKEditor WP-like overrides */
+  .ck.ck-editor { border: 1px solid #c3c4c7!important; border-radius: 3px!important; }
+  .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
+    background: #f6f7f7!important;
+    border-bottom: 1px solid #c3c4c7!important;
+    border-radius: 3px 3px 0 0!important;
+    padding: 4px 6px!important;
+  }
+  .ck.ck-editor__main .ck-editor__editable {
+    min-height: 300px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #1d2327;
+    border: none!important;
+    border-radius: 0 0 3px 3px!important;
+    padding: 12px 16px!important;
+    box-shadow: none!important;
+  }
+  .ck.ck-editor__main .ck-editor__editable:focus {
+    box-shadow: none!important;
+  }
+  .ck-editor-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .06em; color: #646970;
+    padding: 5px 10px;
+    background: #f0f0f1;
+    border-bottom: 1px solid #c3c4c7;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ck-editor-wrapper {
+    border: 1px solid #c3c4c7;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .ck-editor-wrapper .ck.ck-editor {
+    border: none!important;
+    border-radius: 0!important;
+  }
+  .ck-editor-wrapper .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
+    border-radius: 0!important;
+  }
+</style>
+@endpush
+
 @section('content')
-<h1 class="font-display font-bold text-2xl text-navy mb-6">Nouvel article</h1>
-<form method="POST" action="{{ route('admin.posts.store') }}" class="space-y-6 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-  @csrf
-  <div class="grid md:grid-cols-2 gap-4">
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Titre (FR) *</label>
-      <input name="title_fr" value="{{ old('title_fr') }}" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
-      @error('title_fr')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+
+<div class="title-area">
+  <h1 class="wp-heading-inline">Ajouter un article</h1>
+  <a href="{{ route('admin.posts.index') }}" class="button" style="margin-left:8px;">← Retour</a>
+</div>
+
+<form method="POST" action="{{ route('admin.posts.store') }}" id="post-form">
+@csrf
+
+<div id="poststuff">
+  <!-- MAIN COLUMN -->
+  <div id="post-body">
+
+    <!-- Titre FR -->
+    <div class="postbox">
+      <div class="postbox-header" style="border-bottom:none;padding-bottom:0;">
+        <h2 style="font-size:13px;color:#646970;font-weight:400;">Titre français</h2>
+      </div>
+      <div class="inside" style="padding-top:0;">
+        <input type="text" id="title" name="title_fr" value="{{ old('title_fr') }}"
+          placeholder="Saisir le titre en français…" required />
+        @error('title_fr')<p class="field-error">{{ $message }}</p>@enderror
+      </div>
     </div>
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Titre (EN) *</label>
-      <input name="title_en" value="{{ old('title_en') }}" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+
+    <!-- Titre EN -->
+    <div class="postbox">
+      <div class="postbox-header" style="border-bottom:none;padding-bottom:0;">
+        <h2 style="font-size:13px;color:#646970;font-weight:400;">Titre anglais</h2>
+      </div>
+      <div class="inside" style="padding-top:0;">
+        <input type="text" name="title_en" value="{{ old('title_en') }}"
+          placeholder="Enter the English title…" required
+          style="width:100%;padding:12px 14px;font-size:22px;font-weight:400;border:1px solid #c3c4c7;border-radius:3px;color:#1d2327;outline:none;line-height:1.4;" />
+      </div>
     </div>
+
+    <!-- Extrait -->
+    <div class="postbox">
+      <div class="postbox-header"><h2>Extrait (résumé)</h2></div>
+      <div class="inside">
+        <div style="margin-bottom:12px;">
+          <div class="ck-editor-wrapper">
+            <div class="ck-editor-label">🇫🇷 Extrait français</div>
+            <div id="editor-excerpt-fr"></div>
+          </div>
+          <textarea name="excerpt_fr" id="textarea-excerpt-fr" style="display:none;" required>{{ old('excerpt_fr') }}</textarea>
+          @error('excerpt_fr')<p class="field-error">{{ $message }}</p>@enderror
+        </div>
+        <div>
+          <div class="ck-editor-wrapper">
+            <div class="ck-editor-label">🇬🇧 English excerpt</div>
+            <div id="editor-excerpt-en"></div>
+          </div>
+          <textarea name="excerpt_en" id="textarea-excerpt-en" style="display:none;" required>{{ old('excerpt_en') }}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Corps -->
+    <div class="postbox">
+      <div class="postbox-header"><h2>Corps de l'article</h2></div>
+      <div class="inside">
+        <div style="margin-bottom:16px;">
+          <div class="ck-editor-wrapper">
+            <div class="ck-editor-label">🇫🇷 Contenu français</div>
+            <div id="editor-body-fr"></div>
+          </div>
+          <textarea name="body_fr" id="textarea-body-fr" style="display:none;" required>{{ old('body_fr') }}</textarea>
+          @error('body_fr')<p class="field-error">{{ $message }}</p>@enderror
+        </div>
+        <div>
+          <div class="ck-editor-wrapper">
+            <div class="ck-editor-label">🇬🇧 English content</div>
+            <div id="editor-body-en"></div>
+          </div>
+          <textarea name="body_en" id="textarea-body-en" style="display:none;" required>{{ old('body_en') }}</textarea>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /#post-body -->
+
+  <!-- SIDEBAR -->
+  <div id="postbox-container-1">
+
+    <div class="postbox">
+      <div class="postbox-header"><h2>Publier</h2></div>
+      <div class="inside">
+        <div class="publish-status-row">
+          <span>Statut</span>
+          <strong>Brouillon</strong>
+        </div>
+        <div class="publish-status-row">
+          <span>Visibilité</span>
+          <strong>Public</strong>
+        </div>
+        <div class="wp-check" style="margin-bottom:12px;">
+          <input type="checkbox" name="published" value="1" id="published" {{ old('published') ? 'checked' : '' }} />
+          <label for="published">Publier immédiatement</label>
+        </div>
+        <div class="publish-action">
+          <button type="submit" id="save-post">Enregistrer brouillon</button>
+          <button type="submit" class="button button-primary">Publier</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="postbox">
+      <div class="postbox-header"><h2>Tags</h2></div>
+      <div class="inside">
+        <input type="text" name="tags" value="{{ old('tags') }}" class="wp-input"
+          placeholder="IE, Cameroun, OSINT" />
+        <span class="description" style="display:block;font-size:12px;color:#646970;margin-top:4px;">Séparer par des virgules.</span>
+      </div>
+    </div>
+
   </div>
-  <div class="grid md:grid-cols-2 gap-4">
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Extrait (FR) *</label>
-      <textarea name="excerpt_fr" rows="3" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">{{ old('excerpt_fr') }}</textarea>
-    </div>
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Extrait (EN) *</label>
-      <textarea name="excerpt_en" rows="3" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">{{ old('excerpt_en') }}</textarea>
-    </div>
-  </div>
-  <div class="grid md:grid-cols-2 gap-4">
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Corps (FR) *</label>
-      <textarea name="body_fr" rows="10" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono">{{ old('body_fr') }}</textarea>
-    </div>
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Corps (EN) *</label>
-      <textarea name="body_en" rows="10" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono">{{ old('body_en') }}</textarea>
-    </div>
-  </div>
-  <div class="flex items-center gap-6">
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Tags (séparés par virgule)</label>
-      <input name="tags" value="{{ old('tags') }}" class="border border-gray-300 rounded px-3 py-2 text-sm" placeholder="IE, Cameroun, OSINT" />
-    </div>
-    <div class="flex items-center gap-2 mt-5">
-      <input type="checkbox" name="published" value="1" id="published" {{ old('published') ? 'checked' : '' }} />
-      <label for="published" class="text-sm font-semibold text-gray-700">Publier immédiatement</label>
-    </div>
-  </div>
-  <div class="flex gap-3">
-    <button type="submit" class="bg-gold text-navy px-6 py-2 rounded font-semibold text-sm">Enregistrer</button>
-    <a href="{{ route('admin.posts.index') }}" class="text-gray-500 hover:text-navy px-4 py-2 text-sm">Annuler</a>
-  </div>
+
+</div>
 </form>
+
 @endsection
+
+@push('scripts')
+<script>
+const CK_CONFIG = {
+  toolbar: {
+    items: [
+      'heading', '|',
+      'bold', 'italic', 'underline', 'strikethrough', '|',
+      'bulletedList', 'numberedList', '|',
+      'outdent', 'indent', '|',
+      'blockQuote', 'link', '|',
+      'alignment', '|',
+      'undo', 'redo'
+    ]
+  },
+  heading: {
+    options: [
+      { model: 'paragraph', title: 'Paragraphe', class: 'ck-heading_paragraph' },
+      { model: 'heading2', view: 'h2', title: 'Titre 2', class: 'ck-heading_heading2' },
+      { model: 'heading3', view: 'h3', title: 'Titre 3', class: 'ck-heading_heading3' },
+      { model: 'heading4', view: 'h4', title: 'Titre 4', class: 'ck-heading_heading4' },
+    ]
+  },
+  language: 'fr',
+};
+
+const editors = {};
+
+// Initialize all 4 editors
+const editorDefs = [
+  { id: 'editor-excerpt-fr', textarea: 'textarea-excerpt-fr', minHeight: '100px' },
+  { id: 'editor-excerpt-en', textarea: 'textarea-excerpt-en', minHeight: '100px' },
+  { id: 'editor-body-fr',    textarea: 'textarea-body-fr',    minHeight: '320px' },
+  { id: 'editor-body-en',    textarea: 'textarea-body-en',    minHeight: '320px' },
+];
+
+editorDefs.forEach(({ id, textarea, minHeight }) => {
+  const el = document.getElementById(id);
+  const ta = document.getElementById(textarea);
+
+  ClassicEditor.create(el, {
+    ...CK_CONFIG,
+    initialData: ta.value || '',
+  })
+  .then(editor => {
+    editors[id] = editor;
+    // Set min-height on editable
+    editor.editing.view.change(writer => {
+      writer.setStyle('min-height', minHeight, editor.editing.view.document.getRoot());
+    });
+  })
+  .catch(console.error);
+});
+
+// On submit: sync all editors → textareas
+document.getElementById('post-form').addEventListener('submit', () => {
+  editorDefs.forEach(({ id, textarea }) => {
+    if (editors[id]) {
+      document.getElementById(textarea).value = editors[id].getData();
+    }
+  });
+});
+</script>
+@endpush
