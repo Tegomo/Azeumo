@@ -55,6 +55,17 @@
   <a href="{{ route('admin.posts.index') }}" class="button" style="margin-left:8px;">← Retour</a>
 </div>
 
+@if($errors->any())
+<div class="notice notice-error" style="margin-bottom:16px;">
+  <p><strong>Veuillez corriger les erreurs suivantes :</strong></p>
+  <ul style="margin:6px 0 0 18px;padding:0;list-style:disc;">
+    @foreach($errors->all() as $error)
+      <li style="font-size:13px;">{{ $error }}</li>
+    @endforeach
+  </ul>
+</div>
+@endif
+
 <form method="POST" action="{{ route('admin.posts.store') }}" id="post-form" enctype="multipart/form-data">
 @csrf
 
@@ -81,7 +92,7 @@
       </div>
       <div class="inside" style="padding-top:0;">
         <input type="text" name="title_en" value="{{ old('title_en') }}"
-          placeholder="Enter the English title…" required
+          placeholder="Enter the English title… (optionnel)"
           style="width:100%;padding:12px 14px;font-size:22px;font-weight:400;border:1px solid #c3c4c7;border-radius:3px;color:#1d2327;outline:none;line-height:1.4;" />
       </div>
     </div>

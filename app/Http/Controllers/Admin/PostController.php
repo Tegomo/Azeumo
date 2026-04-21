@@ -22,13 +22,13 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'title_fr'  => 'required|string|max:255',
-            'title_en'  => 'required|string|max:255',
+            'title_en'  => 'nullable|string|max:255',
             'excerpt_fr'=> 'required|string',
-            'excerpt_en'=> 'required|string',
+            'excerpt_en'=> 'nullable|string',
             'body_fr'   => 'required|string',
-            'body_en'   => 'required|string',
+            'body_en'   => 'nullable|string',
             'tags'      => 'nullable|string',
-            'published' => 'boolean',
+            'published' => 'nullable|boolean',
             'image'     => 'nullable|image|max:4096',
         ]);
 
@@ -56,13 +56,13 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'title_fr'  => 'required|string|max:255',
-            'title_en'  => 'required|string|max:255',
+            'title_en'  => 'nullable|string|max:255',
             'excerpt_fr'=> 'required|string',
-            'excerpt_en'=> 'required|string',
+            'excerpt_en'=> 'nullable|string',
             'body_fr'   => 'required|string',
-            'body_en'   => 'required|string',
+            'body_en'   => 'nullable|string',
             'tags'      => 'nullable|string',
-            'published' => 'boolean',
+            'published' => 'nullable|boolean',
             'image'     => 'nullable|image|max:4096',
         ]);
 

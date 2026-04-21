@@ -50,8 +50,9 @@ RUN npm ci && npm run build
 RUN composer dump-autoload --optimize
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN mkdir -p /var/www/html/public/images/blog \
+    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/images \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/images
 
 # Nginx config
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
