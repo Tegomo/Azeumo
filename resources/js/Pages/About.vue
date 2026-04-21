@@ -147,41 +147,55 @@
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle
           :title="t('about.bibliography')"
-          :tag="locale === 'fr' ? 'Publication' : 'Publication'"
+          :tag="locale === 'fr' ? 'Publications' : 'Publications'"
           centered
         />
 
-        <div class="bg-gradient-to-br from-gold/10 to-gold/5 rounded-3xl p-8 lg:p-12 border border-gold/20 animate-scale">
+        <!-- Livre vedette -->
+        <div class="bg-gradient-to-br from-gold/10 to-gold/5 rounded-3xl p-8 lg:p-12 border border-gold/20 animate-scale mb-16">
           <div class="flex flex-col lg:flex-row items-center gap-8">
-            <!-- Book cover -->
             <div class="w-40 h-56 rounded-lg shadow-2xl overflow-hidden flex-shrink-0">
               <img src="/images/profile/book-cover.jpg" alt="L'Intelligence Économique Camerounaise" class="w-full h-full object-cover" />
             </div>
-
             <div class="text-center lg:text-left">
               <h3 class="font-display font-bold text-navy text-2xl mb-3">
                 L'Intelligence Économique Camerounaise (IEC)
               </h3>
               <p class="text-gray-600 mb-2">Éditions Harmattan Cameroun, 2013</p>
               <p class="text-gray-500 text-sm mb-6">ISBN 978-2-343-01199-8</p>
-
               <div class="flex flex-wrap justify-center lg:justify-start gap-3">
-                <Button
-                  href="https://www.editions-harmattan.fr/livre-l_intelligence_economique_camerounaise_iec_steve_william_azeumo-9782343011998-40537.html"
-                  variant="outline"
-                  external
-                >
+                <Button href="https://www.editions-harmattan.fr/index.asp?navig=auteurs&obj=artiste&no=24878" variant="outline" external>
                   Harmattan
                 </Button>
-                <Button
-                  href="https://www.amazon.com/Lintelligence-%C3%A9conomique-camerounaise-Harmattan-Cameroun-ebook/dp/B00K35UKT8"
-                  variant="outline"
-                  external
-                >
+                <Button href="https://www.amazon.com/Lintelligence-%C3%A9conomique-camerounaise-Harmattan-Cameroun-ebook/dp/B00K35UKT8" variant="outline" external>
                   Amazon
                 </Button>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Liste complète -->
+        <div class="space-y-14">
+          <div v-for="section in bibliography" :key="section.title">
+            <h3 class="font-display font-bold text-navy text-lg mb-6 pb-3 border-b-2 border-gold/40 flex items-center gap-3">
+              <span class="w-8 h-0.5 bg-gold"></span>{{ section.title }}
+            </h3>
+            <ul class="space-y-5">
+              <li v-for="item in section.items" :key="item.label" class="flex items-start gap-4 group">
+                <div class="mt-1 w-8 h-8 rounded-lg bg-gold/10 flex items-center justify-center flex-shrink-0 group-hover:bg-gold transition-colors duration-300">
+                  <Icon :name="item.icon || 'book'" size="sm" class="text-gold group-hover:text-white transition-colors duration-300" />
+                </div>
+                <div>
+                  <a v-if="item.href" :href="item.href" target="_blank" rel="noopener noreferrer"
+                     class="text-navy font-medium hover:text-gold transition-colors hover:underline underline-offset-2">
+                    {{ item.label }}
+                  </a>
+                  <span v-else class="text-navy font-medium">{{ item.label }}</span>
+                  <p v-if="item.meta" class="text-gray-500 text-sm mt-0.5 italic">{{ item.meta }}</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -209,6 +223,70 @@ const skills = [
   { exp: '10', labelFr: "Conception et Gestion des projets d'IE", labelEn: 'EI Project Design & Management' },
   { exp: '10', labelFr: 'Veille · Due Diligence · Protection des données', labelEn: 'Watch · Due Diligence · Data Protection' },
   { exp: '10', labelFr: 'Conseils en Gestion des Organisations', labelEn: 'Organisational Management Consulting' },
+]
+
+const bibliography = [
+  {
+    title: 'Publications académiques',
+    items: [
+      {
+        label: "Œuvres de Saint François d'Assises et leur mode de fonctionnement : Une âme pour l'économie Africaine ?",
+        meta: "TONYE A.F. & Azeumo S.W. — Revue Française d'Economie et de Gestion, 4(11), nov. 2023",
+        href: 'https://www.revuefreg.fr/index.php/home/article/view/1367/1122',
+        icon: 'book',
+      },
+      {
+        label: "Les cultures et valeurs africaines, un humus fertile aux économies inclusives ?",
+        meta: "Azeumo S.W. — Revue Française d'Economie et de Gestion, 3(6), juin 2022",
+        href: 'https://www.revuefreg.fr/index.php/home/article/view/722/537',
+        icon: 'book',
+      },
+      {
+        label: "Vocation and Profit in the perspective of African Culture",
+        meta: "Azeumo S.W. — Francesco Economy, 2020",
+        href: 'https://francescoeconomy.org/vocation-and-profit-in-the-perspective-of-african-culture/',
+        icon: 'book',
+      },
+      {
+        label: "Les données personnelles",
+        meta: "Azeumo S.W. — in : Les réseaux sociaux, ce qu'ils ont fait de nous et ce que nous devons en faire. Edition Afrédit, p.35. 2020",
+        icon: 'book',
+      },
+      {
+        label: "Synthèse du Colloque international de Yaoundé sur l'Économie de Communion à l'UCAC",
+        meta: "Azeumo S.W. — ResearchGate",
+        href: 'https://www.researchgate.net/publication/343862243_QUE_PEUT-ON_APPRENDRE_ET_ATTENDRE_DE_L\'ECONOMIE_DE_COMMUNION',
+        icon: 'book',
+      },
+    ],
+  },
+  {
+    title: 'Autres publications',
+    items: [
+      {
+        label: "Pharmacopée traditionnelle africaine, nouveau terrain de jeu des trolls",
+        meta: "CAVIE — Centre Africain de Veille et d'Intelligence Économique, 2022",
+        href: 'https://www.acci-cavie.org/fr/pharmacopee-traditionnelle-africaine-nouveau-terrain-de-jeu-des-trolls-par-steve-azeumo/',
+        icon: 'newspaper',
+      },
+      {
+        label: "Le Cameroun entre Francophonie, Commonwealth et les géants USA/Chine",
+        meta: "Centre Algérien de Diplomatie Économique",
+        href: 'https://algeriancenter.com/le-cameroun-entre-francophonie-commonwealth-et-les-geants-usa-chine-interview-de-steve-william-azeumo/',
+        icon: 'newspaper',
+      },
+      {
+        label: "La Communauté de l'Intelligence Camerounaise : Défis du Renseignement Sécuritaire et Économique",
+        meta: "PRESDIE",
+        icon: 'newspaper',
+      },
+      {
+        label: "Intelligence Territoriale — Anarchisme dans la gestion des plateformes de marché",
+        meta: "PRESDIE",
+        icon: 'newspaper',
+      },
+    ],
+  },
 ]
 
 const education = [
