@@ -27,15 +27,23 @@
 
     <!-- Media Content -->
     <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16">
-      <section v-for="cat in categories" :key="cat" class="mb-12">
-        <h2 class="font-display font-bold text-navy text-xl mb-4 border-b border-gold/30 pb-2">{{ cat }}</h2>
-        <ul class="space-y-3">
-          <li v-for="item in byCategory(cat)" :key="item.href">
-            <a :href="item.href" target="_blank" rel="noopener noreferrer"
-               class="flex items-center gap-3 group hover:text-gold transition-colors">
-              <Icon :name="icons[item.type]" size="sm" class="text-gold flex-shrink-0" />
-              <span class="text-gray-700 group-hover:text-gold underline underline-offset-2">{{ item.label }}</span>
-            </a>
+      <section v-for="cat in categories" :key="cat" class="mb-14">
+        <h2 class="font-display font-bold text-navy text-xl mb-6 pb-3 border-b-2 border-gold/40 flex items-center gap-3">
+          <span class="w-8 h-0.5 bg-gold"></span>{{ cat }}
+        </h2>
+        <ul class="space-y-5">
+          <li v-for="item in byCategory(cat)" :key="item.label" class="flex items-start gap-4 group">
+            <div class="mt-1 w-8 h-8 rounded-lg bg-gold/10 flex items-center justify-center flex-shrink-0 group-hover:bg-gold transition-colors duration-300">
+              <Icon :name="icons[item.type]" size="sm" class="text-gold group-hover:text-white transition-colors duration-300" />
+            </div>
+            <div>
+              <a v-if="item.href" :href="item.href" target="_blank" rel="noopener noreferrer"
+                 class="text-navy font-medium hover:text-gold transition-colors underline-offset-2 hover:underline">
+                {{ item.label }}
+              </a>
+              <span v-else class="text-navy font-medium">{{ item.label }}</span>
+              <p v-if="item.meta" class="text-gray-500 text-sm mt-0.5 italic">{{ item.meta }}</p>
+            </div>
           </li>
         </ul>
       </section>
