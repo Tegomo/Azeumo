@@ -182,6 +182,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import AppLayout from '../Components/Layout/AppLayout.vue'
 import SectionTitle from '../Components/UI/SectionTitle.vue'
 import Button from '../Components/UI/Button.vue'
@@ -197,22 +198,25 @@ const modes = [
   { icon: 'wrench',    titleKey: 'method.intervention', descKey: 'method.intervention_desc', anchor: 'intervention' },
 ]
 
-const steps = [
-  {
-    title: locale === 'fr' ? 'Analyse & Diagnostic' : 'Analysis & Diagnosis',
-    desc: locale === 'fr' ? "Évaluation approfondie de votre situation et identification des enjeux clés." : "In-depth assessment of your situation and identification of key issues."
-  },
-  {
-    title: locale === 'fr' ? 'Stratégie & Planification' : 'Strategy & Planning',
-    desc: locale === 'fr' ? "Élaboration d'une feuille de route adaptée à vos objectifs et contraintes." : "Development of a roadmap tailored to your objectives and constraints."
-  },
-  {
-    title: locale === 'fr' ? 'Mise en œuvre' : 'Implementation',
-    desc: locale === 'fr' ? "Accompagnement opérationnel et suivi des actions définies." : "Operational support and monitoring of defined actions."
-  },
-  {
-    title: locale === 'fr' ? 'Évaluation & Optimisation' : 'Evaluation & Optimization',
-    desc: locale === 'fr' ? "Mesure des résultats et ajustements pour une amélioration continue." : "Results measurement and adjustments for continuous improvement."
-  },
-]
+const steps = computed(() => {
+  const fr = locale.value === 'fr'
+  return [
+    {
+      title: fr ? 'Analyse & Diagnostic' : 'Analysis & Diagnosis',
+      desc: fr ? "Évaluation approfondie de votre situation et identification des enjeux clés." : "In-depth assessment of your situation and identification of key issues."
+    },
+    {
+      title: fr ? 'Stratégie & Planification' : 'Strategy & Planning',
+      desc: fr ? "Élaboration d'une feuille de route adaptée à vos objectifs et contraintes." : "Development of a roadmap tailored to your objectives and constraints."
+    },
+    {
+      title: fr ? 'Mise en œuvre' : 'Implementation',
+      desc: fr ? "Accompagnement opérationnel et suivi des actions définies." : "Operational support and monitoring of defined actions."
+    },
+    {
+      title: fr ? 'Évaluation & Optimisation' : 'Evaluation & Optimization',
+      desc: fr ? "Mesure des résultats et ajustements pour une amélioration continue." : "Results measurement and adjustments for continuous improvement."
+    },
+  ]
+})
 </script>
