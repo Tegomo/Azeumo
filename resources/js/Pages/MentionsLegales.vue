@@ -1,5 +1,24 @@
 <template>
   <AppLayout>
+    <!-- Hero Section -->
+    <section class="relative bg-navy text-white py-32 overflow-hidden">
+      <div class="absolute inset-0">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-gold/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
+      </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-3xl">
+          <div class="inline-flex items-center gap-3 mb-6 animate-fade-up">
+            <span class="w-12 h-px bg-gold"></span>
+            <span class="text-gold font-semibold text-sm tracking-widest uppercase">Informations légales</span>
+          </div>
+          <h1 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-tight mb-6 animate-fade-up delay-100">
+            Mentions Légales
+          </h1>
+        </div>
+      </div>
+    </section>
+
     <div class="max-w-3xl mx-auto px-4 sm:px-6 py-20 prose prose-sm text-gray-700">
       <h1 class="font-display text-navy">Mentions Légales</h1>
 
